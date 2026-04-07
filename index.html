@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lift and Serve All Foundation - Transforming Lives Through Education</title>
+<meta name="description" content="Lift and Serve All Foundation is dedicated to transforming the lives of children in underserved communities through education.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#001F54">
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --navy:#001F54; --gold:#FFD700; --gold-dark:#E6C200;
+  --white:#fff; --light-gray:#f8f9fa; --border:#e9ecef;
+  --text:#333; --text-light:#fff; --muted:rgba(51,51,51,.8);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Montserrat',sans-serif;line-height:1.6;color:var(--text);background:#fff;}
+.container{max-width:1200px;margin:0 auto;padding:0 20px;}
+h1,h2,h3,h4{font-weight:700;color:var(--navy);margin-bottom:1rem;}
+h1{font-size:2.5rem;}h2{font-size:2rem;}h3{font-size:1.4rem;}
+p{margin-bottom:1rem;opacity:.9;}
+a{color:var(--navy);text-decoration:none;}
+ul{list-style:none;}
+img{max-width:100%;}
+
+/* ═══════════════════════════════════════════════════════════
+   BUTTONS
+═══════════════════════════════════════════════════════════ */
+.btn{display:inline-flex;align-items:center;gap:.4rem;padding:12px 24px;border:none;border-radius:6px;
+  font-family:'Montserrat',sans-serif;font-weight:600;font-size:.95rem;cursor:pointer;
+  text-decoration:none;transition:all .25s;}
+.btn-primary{background:var(--gold);color:var(--navy);}
+.btn-primary:hover{background:var(--gold-dark);transform:translateY(-2px);box-shadow:0 4px 12px rgba(255,215,0,.4);}
+.btn-secondary{background:var(--navy);color:var(--white);}
+.btn-secondary:hover{background:#002a70;transform:translateY(-2px);}
+.btn-outline{background:transparent;border:2px solid var(--navy);color:var(--navy);}
+.btn-outline:hover{background:var(--navy);color:var(--white);}
+.btn-white{background:var(--white);color:var(--navy);}
+.btn-white:hover{background:var(--gold);transform:translateY(-2px);}
+
+/* ═══════════════════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════════════════ */
+.navbar{background:#fff;box-shadow:0 2px 12px rgba(0,0,0,.08);position:sticky;top:0;z-index:500;}
+.nav-container{display:flex;align-items:center;justify-content:space-between;
+  max-width:1200px;margin:0 auto;padding:0 20px;height:68px;}
+.nav-logo{display:flex;align-items:center;gap:8px;font-weight:700;font-size:1rem;color:var(--navy);}
+.nav-logo a{display:flex;align-items:center;gap:8px;text-decoration:none;color:var(--navy);}
+.logo-img,.site-logo-img{height:56px;width:56px;border-radius:10px;object-fit:contain;
+  border:2px solid var(--gold);box-shadow:0 4px 12px rgba(0,31,84,.15);background:#fff;padding:2px;}
+.nav-menu{display:flex;gap:4px;align-items:center;}
+.nav-link{padding:7px 10px;border-radius:5px;font-size:.88rem;font-weight:500;color:#2d3a4a;
+  transition:.2s;cursor:pointer;text-decoration:none;}
+.nav-link:hover,.nav-link.active{background:#f0f4fa;color:var(--navy);}
+.hamburger{display:none;flex-direction:column;cursor:pointer;gap:5px;}
+.bar{width:26px;height:3px;background:var(--navy);border-radius:2px;transition:.3s;}
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE SECTIONS (SPA)
+═══════════════════════════════════════════════════════════ */
+.page-section{display:none;}
+.page-section.active{display:block;}
+
+/* ═══════════════════════════════════════════════════════════
+   PAGE HEADER BANNER
+═══════════════════════════════════════════════════════════ */
+.page-header{background:linear-gradient(135deg,var(--navy) 0%,#1a3a5c 100%);
+  color:#fff;padding:80px 0 60px;text-align:center;}
+.page-header h1{color:#fff;text-shadow:0 2px 8px rgba(0,0,0,.3);}
+.page-header p{color:rgba(255,255,255,.9);font-size:1.1rem;max-width:600px;margin:0 auto;}
+
+/* ═══════════════════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════════════════ */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#1a3a5c 55%,#0d2e4a 100%);
+  padding:80px 0 70px;min-height:88vh;display:flex;align-items:center;}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.hero h1{color:#fff;font-size:2.8rem;line-height:1.2;margin-bottom:1.2rem;
+  text-shadow:0 3px 12px rgba(0,0,0,.3);}
+.hero-tagline{color:rgba(255,255,255,.92);font-size:1.15rem;margin-bottom:2rem;font-weight:500;}
+.hero-buttons{display:flex;gap:1rem;flex-wrap:wrap;}
+.hero-image-wrap{display:flex;justify-content:center;}
+.hero-image-wrap img{width:100%;max-width:380px;border-radius:16px;
+  border:4px solid var(--gold);padding:6px;background:#fff;
+  box-shadow:0 12px 40px rgba(0,0,0,.25);object-fit:cover;}
+
+/* ═══════════════════════════════════════════════════════════
+   STATS
+═══════════════════════════════════════════════════════════ */
+.stats-section{padding:70px 0;background:var(--light-gray);}
+.stats-section h2{text-align:center;margin-bottom:2.5rem;}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;}
+.stat-card{background:#fff;padding:2rem;border-radius:12px;text-align:center;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);transition:transform .3s;}
+.stat-card:hover{transform:translateY(-5px);}
+.stat-icon{font-size:2.5rem;color:var(--gold);margin-bottom:.8rem;}
+.stat-number{font-size:2.8rem;font-weight:800;color:var(--navy);}
+.stat-label{font-size:.95rem;color:var(--text);opacity:.8;margin-top:.3rem;}
+
+/* ═══════════════════════════════════════════════════════════
+   CTA STRIP
+═══════════════════════════════════════════════════════════ */
+.cta-strip{background:var(--navy);color:#fff;padding:60px 0;text-align:center;}
+.cta-strip h2{color:#fff;margin-bottom:.8rem;}
+.cta-strip p{color:rgba(255,255,255,.9);margin-bottom:1.8rem;}
+.cta-strip .btn-group{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;}
+
+/* ═══════════════════════════════════════════════════════════
+   ABOUT PREVIEW / ABOUT PAGE
+═══════════════════════════════════════════════════════════ */
+.about-section{padding:80px 0;}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;}
+.about-text h2{margin-bottom:1.2rem;}
+.about-text p{font-size:1.05rem;line-height:1.8;margin-bottom:1.2rem;}
+.team-photo-wrap{text-align:center;}
+.team-photo-wrap img{width:100%;border-radius:14px;box-shadow:0 8px 30px rgba(0,0,0,.15);object-fit:cover;max-height:420px;}
+.team-photo-wrap .caption{margin-top:.8rem;font-weight:700;color:var(--navy);}
+
+/* values grid */
+.values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-top:2rem;}
+.value-card{background:#fff;padding:1.8rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);
+  border-top:4px solid var(--gold);transition:transform .3s;}
+.value-card:hover{transform:translateY(-4px);}
+.value-card .value-icon{font-size:2.2rem;color:var(--gold);margin-bottom:.8rem;}
+.value-card h3{font-size:1.1rem;margin-bottom:.5rem;}
+
+/* team members */
+.team-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;margin-top:2rem;}
+.team-card{background:#fff;padding:2rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);text-align:center;}
+.team-member-photo{width:100px;height:100px;border-radius:50%;overflow:hidden;margin:0 auto 1rem;
+  border:3px solid var(--gold);background:var(--light-gray);display:flex;align-items:center;justify-content:center;}
+.team-member-photo img{width:100%;height:100%;object-fit:cover;}
+.team-member-photo .img-placeholder-inner{font-size:2.5rem;color:var(--navy);opacity:.4;}
+.team-card h3{margin-bottom:.3rem;}
+.team-card .role{color:var(--gold-dark);font-weight:600;font-size:.9rem;margin-bottom:.5rem;}
+
+/* ═══════════════════════════════════════════════════════════
+   PROGRAMS
+═══════════════════════════════════════════════════════════ */
+.programs-section{padding:80px 0;}
+.programs-section.alt-bg{background:var(--light-gray);}
+.programs-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:2rem;margin-top:2rem;}
+.program-card{background:#fff;padding:2rem;border-radius:12px;
+  box-shadow:0 4px 16px rgba(0,0,0,.07);transition:transform .3s;}
+.program-card:hover{transform:translateY(-5px);}
+.program-icon{font-size:2.5rem;color:var(--gold);margin-bottom:1rem;}
+.program-card h3{margin-bottom:.8rem;}
+.program-card ul{padding-left:1.2rem;list-style:disc;margin-bottom:1rem;}
+.program-card ul li{margin-bottom:.4rem;font-size:.9rem;opacity:.9;}
+.program-stats{background:var(--light-gray);padding:.7rem 1rem;border-radius:6px;font-size:.88rem;margin-top:.8rem;}
+
+/* gallery */
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1.5rem;}
+.gallery-item{border-radius:10px;overflow:hidden;aspect-ratio:4/3;position:relative;}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-item .img-placeholder-inner{width:100%;height:100%;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;background:var(--light-gray);color:var(--navy);opacity:.5;}
+.gallery-item .img-placeholder-inner i{font-size:2.5rem;margin-bottom:.5rem;}
+
+/* success stories */
+.stories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:2rem;}
+.story-card{background:#fff;padding:1.8rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);}
+.story-card blockquote{font-style:italic;padding:.8rem 1rem;
+  border-left:4px solid var(--gold);margin:1rem 0;background:#fffbe6;border-radius:0 6px 6px 0;}
+
+/* ═══════════════════════════════════════════════════════════
+   GET INVOLVED
+═══════════════════════════════════════════════════════════ */
+.involved-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;}
+.involved-card{background:#fff;padding:2rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);}
+.involved-icon{font-size:2.5rem;color:var(--gold);margin-bottom:1rem;}
+.involved-card h3{margin-bottom:.8rem;}
+.involved-card ul{padding-left:1.2rem;list-style:disc;margin-bottom:1.2rem;}
+.involved-card ul li{margin-bottom:.5rem;font-size:.9rem;}
+.membership-tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1rem;}
+.tier-card{padding:1.2rem;border:2px solid var(--border);border-radius:8px;text-align:center;}
+.tier-card h4{color:var(--navy);margin-bottom:.4rem;}
+.tier-card .price{font-size:1.3rem;font-weight:800;color:var(--gold-dark);}
+
+/* forms */
+.page-content{padding:60px 0;}
+.content-section{margin-bottom:3.5rem;}
+.content-section h2{margin-bottom:1.5rem;}
+.form-card{background:#fff;padding:2rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.form-group{margin-bottom:1.2rem;}
+.form-group label{display:block;font-weight:600;font-size:.85rem;color:var(--navy);margin-bottom:.4rem;}
+.form-group input,.form-group textarea,.form-group select{
+  width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:7px;
+  font-size:.92rem;font-family:'Montserrat',sans-serif;transition:.2s;background:#fff;}
+.form-group input:focus,.form-group textarea:focus,.form-group select:focus{
+  outline:none;border-color:var(--navy);box-shadow:0 0 0 3px rgba(0,31,84,.08);}
+.form-group textarea{min-height:110px;resize:vertical;}
+.success-msg{background:#d4edda;color:#155724;border:1px solid #c3e6cb;
+  padding:1rem;border-radius:7px;margin-bottom:1rem;display:none;font-weight:600;}
+.checkbox-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem;}
+.checkbox-grid label{display:flex;align-items:center;gap:.5rem;font-weight:400;font-size:.9rem;}
+
+/* ═══════════════════════════════════════════════════════════
+   DONATE
+═══════════════════════════════════════════════════════════ */
+.donation-form-wrap{background:#fff;padding:2.5rem;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1);}
+.amount-buttons{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1rem;}
+.amount-btn{padding:14px;border:2px solid var(--border);background:#fff;border-radius:8px;
+  cursor:pointer;font-weight:700;font-size:1rem;font-family:'Montserrat',sans-serif;
+  transition:.2s;color:var(--navy);}
+.amount-btn:hover,.amount-btn.selected{border-color:var(--gold);background:var(--gold);color:var(--navy);}
+.payment-methods-row{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:.5rem;}
+.payment-methods-row label{display:flex;align-items:center;gap:.5rem;cursor:pointer;font-weight:500;}
+.impact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin:2rem 0;}
+.impact-card{background:#fff;padding:1.5rem;border-radius:10px;text-align:center;
+  box-shadow:0 3px 12px rgba(0,0,0,.07);}
+.impact-icon{font-size:2rem;color:var(--gold);margin-bottom:.8rem;}
+.impact-card h3{font-size:1.3rem;color:var(--navy);margin-bottom:.4rem;}
+.bank-details{background:var(--light-gray);padding:1rem;border-radius:8px;font-size:.9rem;line-height:1.8;}
+.transparency-grid,.recognition-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;}
+.transparency-card,.recognition-card{background:#fff;padding:1.5rem;border-radius:10px;box-shadow:0 3px 12px rgba(0,0,0,.07);}
+.recognition-icon{font-size:2rem;color:var(--gold);margin-bottom:.8rem;}
+.usage-item{display:flex;justify-content:space-between;padding:.5rem 0;border-bottom:1px solid var(--border);}
+
+/* ═══════════════════════════════════════════════════════════
+   NEWS & BLOG
+═══════════════════════════════════════════════════════════ */
+.featured-card{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center;
+  background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);}
+.featured-img{width:100%;height:320px;object-fit:cover;}
+.featured-text{padding:2rem;}
+.blog-meta{color:#666;font-size:.85rem;margin-bottom:.6rem;}
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:2rem;}
+.blog-card{background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.07);transition:transform .3s;}
+.blog-card:hover{transform:translateY(-4px);}
+.blog-card-img{width:100%;height:190px;object-fit:cover;display:block;}
+.blog-card-content{padding:1.4rem;}
+.blog-card-content h3{font-size:1.05rem;margin-bottom:.6rem;}
+.press-item{background:#fff;padding:1.5rem 2rem;border-radius:10px;
+  box-shadow:0 3px 12px rgba(0,0,0,.06);margin-bottom:1rem;border-left:4px solid var(--gold);}
+.press-date{color:#888;font-size:.82rem;margin-bottom:.4rem;}
+.media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-top:1.5rem;}
+.media-item{background:#fff;padding:1.5rem;border-radius:10px;box-shadow:0 3px 12px rgba(0,0,0,.06);}
+.media-logo{font-size:2rem;color:var(--navy);opacity:.6;margin-bottom:.8rem;}
+
+/* ═══════════════════════════════════════════════════════════
+   CONTACT
+═══════════════════════════════════════════════════════════ */
+.contact-info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-bottom:2.5rem;}
+.contact-info-card{background:#fff;padding:1.5rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);text-align:center;}
+.contact-icon{font-size:2rem;color:var(--gold);margin-bottom:.8rem;}
+.contact-info-card h3{margin-bottom:.6rem;}
+.social-media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;}
+.social-card{background:#fff;padding:1.5rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);text-align:center;}
+.social-icon{font-size:2rem;margin-bottom:.8rem;}
+.social-icon.facebook{color:#1877f2;}
+.social-icon.instagram{color:#e1306c;}
+.social-icon.linkedin{color:#0077b5;}
+.social-icon.youtube{color:#ff0000;}
+
+/* ═══════════════════════════════════════════════════════════
+   FAQs
+═══════════════════════════════════════════════════════════ */
+.faq-category{margin-bottom:2.5rem;}
+.faq-category > h3{display:flex;align-items:center;gap:.7rem;font-size:1.2rem;
+  padding:.8rem 0;border-bottom:2px solid var(--gold);margin-bottom:1rem;}
+.faq-item{background:#fff;border-radius:8px;margin-bottom:.6rem;box-shadow:0 2px 8px rgba(0,0,0,.06);}
+.faq-question{padding:1.2rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;
+  align-items:center;font-weight:600;font-size:.95rem;color:var(--navy);transition:.2s;}
+.faq-question:hover{background:var(--light-gray);}
+.faq-question i{transition:transform .3s;color:var(--gold);}
+.faq-question.open i{transform:rotate(180deg);}
+.faq-answer{padding:0 1.5rem;max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.faq-answer.open{max-height:400px;padding:0 1.5rem 1.2rem;}
+.faq-search-bar{display:flex;gap:.8rem;max-width:500px;margin:0 auto 2.5rem;}
+.faq-search-bar input{flex:1;padding:12px 16px;border:1.5px solid var(--border);border-radius:8px;
+  font-family:'Montserrat',sans-serif;font-size:.95rem;}
+.faq-search-bar input:focus{outline:none;border-color:var(--navy);}
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════════════ */
+.footer{background:var(--navy);color:#fff;padding:60px 0 0;}
+.footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2.5rem;margin-bottom:2rem;}
+.footer-logo-wrap{display:flex;align-items:center;gap:.8rem;margin-bottom:1rem;}
+.footer-logo-wrap span{font-size:1rem;font-weight:700;}
+.footer h3{color:#fff;margin-bottom:1rem;font-size:1rem;opacity:1;}
+.footer p{color:rgba(255,255,255,.85);font-size:.9rem;opacity:1;}
+.footer ul li{margin-bottom:.5rem;}
+.footer ul li a{color:rgba(255,255,255,.85);font-size:.9rem;transition:.2s;}
+.footer ul li a:hover{color:var(--gold);}
+.social-links{display:flex;gap:.8rem;margin-top:1rem;}
+.social-link{width:38px;height:38px;background:var(--gold);color:var(--navy);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-weight:700;transition:.2s;text-decoration:none;}
+.social-link:hover{background:var(--gold-dark);transform:translateY(-2px);}
+.contact-info-footer p{display:flex;align-items:center;gap:.5rem;font-size:.88rem;color:rgba(255,255,255,.85);margin-bottom:.5rem;}
+.contact-info-footer i{color:var(--gold);width:16px;}
+.newsletter-form{display:flex;gap:.5rem;margin-top:.8rem;}
+.newsletter-form input{flex:1;padding:9px 12px;border:none;border-radius:5px;font-family:'Montserrat',sans-serif;}
+.newsletter-msg{color:var(--gold);font-size:.82rem;margin-top:.4rem;display:none;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding:1.2rem 0;text-align:center;}
+.footer-bottom p{color:rgba(255,255,255,.6);font-size:.85rem;margin:0;}
+.admin-link{opacity:.3;font-size:.75rem;margin-top:.3rem;}
+.admin-link a{color:rgba(255,255,255,.5);}
+
+/* ═══════════════════════════════════════════════════════════
+   CHATBOT
+═══════════════════════════════════════════════════════════ */
+.chatbot-container{position:fixed;bottom:24px;right:24px;z-index:1000;}
+.chatbot-toggle{width:58px;height:58px;background:var(--gold);color:var(--navy);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  box-shadow:0 4px 16px rgba(255,215,0,.4);transition:.3s;font-size:1.4rem;}
+.chatbot-toggle:hover{transform:scale(1.1);}
+.chatbot-window{position:absolute;bottom:76px;right:0;width:340px;height:480px;background:#fff;
+  border-radius:14px;box-shadow:0 12px 40px rgba(0,0,0,.2);display:none;flex-direction:column;overflow:hidden;}
+.chatbot-window.active{display:flex;}
+.chatbot-header{background:var(--navy);color:#fff;padding:1rem 1.2rem;
+  display:flex;justify-content:space-between;align-items:center;}
+.chatbot-header h3{color:#fff;margin:0;font-size:1rem;}
+.chatbot-close{background:none;border:none;color:#fff;cursor:pointer;font-size:1.1rem;opacity:.8;}
+.chatbot-close:hover{opacity:1;}
+.chatbot-messages{flex:1;padding:1rem;overflow-y:auto;display:flex;flex-direction:column;gap:.8rem;}
+.chatbot-message{max-width:82%;padding:.7rem 1rem;border-radius:10px;font-size:.88rem;}
+.bot-message{background:var(--light-gray);align-self:flex-start;}
+.user-message{background:var(--gold);color:var(--navy);align-self:flex-end;font-weight:600;}
+.chatbot-input-area{padding:.8rem;border-top:1px solid var(--border);display:flex;gap:.5rem;}
+.chatbot-input-area input{flex:1;padding:8px 12px;border:1px solid var(--border);
+  border-radius:5px;font-size:.88rem;font-family:'Montserrat',sans-serif;}
+.chatbot-input-area button{padding:8px 12px;background:var(--gold);border:none;
+  border-radius:5px;cursor:pointer;color:var(--navy);font-weight:700;}
+
+/* ═══════════════════════════════════════════════════════════
+   DONATE MODAL
+═══════════════════════════════════════════════════════════ */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+  z-index:2000;align-items:center;justify-content:center;padding:1rem;}
+.modal-overlay.active{display:flex;}
+.modal-box{background:#fff;border-radius:14px;padding:2rem;max-width:460px;
+  width:100%;position:relative;max-height:90vh;overflow-y:auto;
+  box-shadow:0 20px 60px rgba(0,0,0,.25);}
+.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;
+  font-size:1.5rem;cursor:pointer;color:#888;line-height:1;}
+.modal-close:hover{color:var(--navy);}
+.modal-box h3{color:var(--navy);margin-bottom:1.2rem;font-size:1.2rem;}
+.modal-amount-display{font-size:2rem;font-weight:800;color:var(--navy);text-align:center;margin:.8rem 0 1.2rem;}
+.modal-input{width:100%;padding:10px 12px;border:1.5px solid var(--border);
+  border-radius:7px;font-size:.95rem;font-family:'Montserrat',sans-serif;margin-bottom:.8rem;}
+.modal-input:focus{outline:none;border-color:var(--navy);}
+.pay-btns{display:flex;gap:.8rem;margin-top:.5rem;}
+.pay-btn{flex:1;padding:12px;border:2px solid var(--navy);border-radius:8px;
+  background:#fff;color:var(--navy);font-weight:700;cursor:pointer;
+  font-family:'Montserrat',sans-serif;transition:.2s;font-size:.9rem;}
+.pay-btn:hover{background:var(--navy);color:var(--gold);}
+.pay-note{font-size:.78rem;color:#888;text-align:center;margin-top:.8rem;}
+
+/* ═══════════════════════════════════════════════════════════
+   IMAGE PLACEHOLDER
+═══════════════════════════════════════════════════════════ */
+.img-placeholder{background:var(--light-gray);border:2px dashed var(--border);
+  border-radius:10px;padding:2.5rem;text-align:center;}
+.img-placeholder-inner{display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:.5rem;color:var(--navy);opacity:.4;}
+.img-placeholder-inner i{font-size:3rem;}
+
+/* ═══════════════════════════════════════════════════════════
+   CONTENT CARDS (generic)
+═══════════════════════════════════════════════════════════ */
+.content-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;}
+.content-card{background:#fff;padding:2rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);transition:transform .3s;}
+.content-card:hover{transform:translateY(-4px);}
+.card-icon{font-size:2.2rem;color:var(--gold);margin-bottom:.8rem;}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media(max-width:900px){
+  .hero-grid,.about-grid,.featured-card{grid-template-columns:1fr;}
+  .hero{padding:60px 0;min-height:auto;}
+  .hero h1{font-size:2rem;}
+  .about-grid{gap:2rem;}
+  .form-row{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .nav-menu{display:none;position:absolute;top:68px;right:0;left:0;
+    background:#fff;flex-direction:column;padding:1rem;box-shadow:0 8px 24px rgba(0,0,0,.1);z-index:100;}
+  .nav-menu.open{display:flex;}
+  .nav-link{padding:10px 16px;font-size:1rem;}
+  .hamburger{display:flex;}
+  .hero-image-wrap{display:none;}
+  .amount-buttons{grid-template-columns:repeat(2,1fr);}
+}
+@media(max-width:480px){
+  h1{font-size:1.8rem;}h2{font-size:1.5rem;}
+  .page-header{padding:60px 0 40px;}
+  .btn{padding:10px 18px;font-size:.88rem;}
+  .chatbot-window{width:300px;height:400px;}
+}
+</style>
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, addDoc, collection, getDocs, query, orderBy, limit, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ══════════════════════════════════════════════════════
+//  REPLACE WITH YOUR FIREBASE CONFIG
+//  Get from: Firebase Console → Project Settings → Your Apps
+// ══════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyBq1WdhNxNgCiLIXumDMWT3RycOL7GxqYQ",
+  authDomain:        "liftandserveallfoundatio-6d136.firebaseapp.com",
+  projectId:         "liftandserveallfoundatio-6d136",
+  storageBucket:     "liftandserveallfoundatio-6d136.firebasestorage.app",
+  messagingSenderId: "132864715952",
+  appId:             "1:132864715952:web:90d362cb57cd59f01a5f75"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+window._db = db;
+window._fsDoc = doc; window._fsGet = getDoc; window._fsSet = setDoc;
+window._fsAdd = addDoc; window._fsColl = collection; window._fsDocs = getDocs;
+window._fsQry = query; window._fsOrd = orderBy; window._fsLim = limit;
+window._fsSTS = serverTimestamp;
+
+async function loadSiteContent() {
+  try {
+    // Load homepage images + text
+    const homeSnap = await getDoc(doc(db,'siteContent','homepage'));
+    if (homeSnap.exists()) {
+      const d = homeSnap.data();
+      if (d.logoUrl)      document.querySelectorAll('.site-logo-img').forEach(el => el.src = d.logoUrl);
+      if (d.heroImageUrl) { const el=document.getElementById('heroImg'); if(el) el.src=d.heroImageUrl; }
+      if (d.teamImageUrl) { const el=document.getElementById('teamImg'); if(el) el.src=d.teamImageUrl; }
+      if (d.heroTitle)    { const el=document.getElementById('heroTitle'); if(el) el.textContent=d.heroTitle; }
+      if (d.heroSubtitle) { const el=document.getElementById('heroSubtitle'); if(el) el.textContent=d.heroSubtitle; }
+      if (d.aboutText1)   { const el=document.getElementById('aboutText1'); if(el) el.textContent=d.aboutText1; }
+      if (d.aboutText2)   { const el=document.getElementById('aboutText2'); if(el) el.textContent=d.aboutText2; }
+      if (d.storyImageUrl){ const el=document.getElementById('storyImg'); if(el) el.src=d.storyImageUrl; }
+      // Gallery images
+      for(let i=1;i<=6;i++) {
+        if(d['galleryImg'+i]) {
+          const el=document.getElementById('galleryImg'+i);
+          if(el){el.src=d['galleryImg'+i]; el.style.display='block'; el.nextElementSibling&&(el.nextElementSibling.style.display='none');}
+        }
+      }
+      // Team member photos
+      for(let i=1;i<=3;i++) {
+        if(d['teamMemberImg'+i]) {
+          const el=document.getElementById('teamMemberImg'+i);
+          if(el){el.src=d['teamMemberImg'+i]; el.style.display='block'; el.closest('.team-member-photo')&&(el.closest('.team-member-photo').querySelector('.img-placeholder-inner')&&(el.closest('.team-member-photo').querySelector('.img-placeholder-inner').style.display='none'));}
+        }
+      }
+    }
+    // Load stats
+    const statsSnap = await getDoc(doc(db,'siteContent','stats'));
+    if (statsSnap.exists()) {
+      const s = statsSnap.data();
+      document.querySelectorAll('[data-stat="children"]').forEach(el => { if(s.children) el.textContent=s.children; });
+      document.querySelectorAll('[data-stat="communities"]').forEach(el => { if(s.communities) el.textContent=s.communities; });
+      document.querySelectorAll('[data-stat="partners"]').forEach(el => { if(s.partners) el.textContent=s.partners; });
+      document.querySelectorAll('[data-stat="schools"]').forEach(el => { if(s.schools) el.textContent=s.schools; });
+      document.querySelectorAll('[data-stat="books"]').forEach(el => { if(s.books) el.textContent=s.books; });
+      document.querySelectorAll('[data-stat="mentored"]').forEach(el => { if(s.mentored) el.textContent=s.mentored; });
+    }
+    // Load news
+    const newsQ = query(collection(db,'news'), orderBy('createdAt','desc'), limit(6));
+    const newsSnap = await getDocs(newsQ);
+    if (!newsSnap.empty) {
+      const grid = document.getElementById('newsGrid');
+      const featuredWrap = document.getElementById('featuredArticle');
+      if (grid) {
+        grid.innerHTML = '';
+        let first = true;
+        newsSnap.forEach(n => {
+          const d = n.data();
+          const dateStr = d.date || (d.createdAt ? new Date(d.createdAt.toDate()).toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'}) : '');
+          if (first && featuredWrap) {
+            featuredWrap.innerHTML = `
+              <div class="featured-card">
+                ${d.imageUrl?`<img src="${d.imageUrl}" alt="${d.title}" class="featured-img">`:`<div class="img-placeholder-inner"><i class="fas fa-graduation-cap"></i><p>Featured</p></div>`}
+                <div class="featured-text">
+                  <div class="blog-meta">${dateStr} &bull; ${d.category||'News'}</div>
+                  <h3>${d.title}</h3>
+                  <p>${d.excerpt||''}</p>
+                </div>
+              </div>`;
+            first = false; return;
+          }
+          grid.innerHTML += `
+            <div class="blog-card">
+              ${d.imageUrl?`<img src="${d.imageUrl}" alt="${d.title}" class="blog-card-img">`:`<div class="blog-card-img img-placeholder-inner"><i class="fas fa-newspaper"></i></div>`}
+              <div class="blog-card-content">
+                <div class="blog-meta">${dateStr} &bull; ${d.category||'News'}</div>
+                <h3>${d.title}</h3>
+                <p>${(d.excerpt||'').slice(0,120)}…</p>
+              </div>
+            </div>`;
+        });
+      }
+    }
+    // Load partners
+    const parSnap = await getDocs(collection(db,'partners'));
+    if (!parSnap.empty) {
+      const grid = document.getElementById('partnersLogoGrid');
+      if (grid) {
+        grid.innerHTML = '';
+        parSnap.forEach(p => {
+          const d = p.data();
+          grid.innerHTML += d.logoUrl
+            ? `<div class="partner-logo-item"><img src="${d.logoUrl}" alt="${d.name||''}"></div>`
+            : `<div class="partner-logo-item partner-name-only">${d.name||''}</div>`;
+        });
+      }
+    }
+  } catch(e) { console.warn('Firebase content load error:', e); }
+}
+
+window.addEventListener('DOMContentLoaded', () => { loadSiteContent(); startRealtimeListeners(); });
+
+// ── REAL-TIME LISTENERS: admin changes appear on public page instantly ──
+function startRealtimeListeners() {
+  const { onSnapshot } = window._onSnapshot ? {onSnapshot:window._onSnapshot} : {};
+
+  // homepage doc
+  import("https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js").then(m => {
+    m.onSnapshot(m.doc(db,'siteContent','homepage'), snap => {
+      if(!snap.exists()) return;
+      const d = snap.data();
+      if(d.logoUrl)       document.querySelectorAll('.site-logo-img').forEach(el=>el.src=d.logoUrl);
+      if(d.heroImageUrl)  { const el=document.getElementById('heroImg');   if(el) el.src=d.heroImageUrl; }
+      if(d.teamImageUrl)  { const el=document.getElementById('teamImg');   if(el) el.src=d.teamImageUrl;
+                            const el2=document.getElementById('teamImg2'); if(el2) el2.src=d.teamImageUrl; }
+      if(d.heroTitle)     { const el=document.getElementById('heroTitle');    if(el) el.textContent=d.heroTitle; }
+      if(d.heroSubtitle)  { const el=document.getElementById('heroSubtitle'); if(el) el.textContent=d.heroSubtitle; }
+      if(d.aboutText1)    { const el=document.getElementById('aboutText1');   if(el) el.textContent=d.aboutText1; }
+      if(d.aboutText2)    { const el=document.getElementById('aboutText2');   if(el) el.textContent=d.aboutText2; }
+      if(d.storyImageUrl) {
+        const el=document.getElementById('storyImg');
+        const ph=document.getElementById('storyPlaceholder');
+        if(el){ el.src=d.storyImageUrl; el.style.display='block'; if(ph) ph.style.display='none'; }
+      }
+      for(let i=1;i<=6;i++){
+        if(d['galleryImg'+i]){
+          const el=document.getElementById('galleryImg'+i);
+          const ph=document.getElementById('galleryPlaceholder'+i);
+          if(el){ el.src=d['galleryImg'+i]; el.style.display='block'; if(ph) ph.style.display='none'; }
+        }
+      }
+      for(let i=1;i<=3;i++){
+        if(d['teamMemberImg'+i]){
+          const el=document.getElementById('teamMemberImg'+i);
+          if(el){ el.src=d['teamMemberImg'+i]; el.style.display='block';
+            const ph=el.closest('.team-member-photo')?.querySelector('.img-placeholder-inner');
+            if(ph) ph.style.display='none';
+          }
+        }
+      }
+    });
+    // stats doc
+    m.onSnapshot(m.doc(db,'siteContent','stats'), snap => {
+      if(!snap.exists()) return;
+      const s = snap.data();
+      ['children','communities','partners','schools','books','mentored'].forEach(k=>{
+        if(s[k]) document.querySelectorAll('[data-stat="'+k+'"]').forEach(el=>el.textContent=s[k]);
+      });
+    });
+    // news collection
+    m.onSnapshot(m.query(m.collection(db,'news'),m.orderBy('createdAt','desc'),m.limit(6)), snap => {
+      const grid = document.getElementById('newsGrid');
+      const featuredWrap = document.getElementById('featuredArticle');
+      if(!grid) return;
+      grid.innerHTML=''; let first=true;
+      snap.forEach(n => {
+        const d=n.data();
+        const dateStr=d.date||(d.createdAt?new Date(d.createdAt.toDate()).toLocaleDateString('en-GB',{year:'numeric',month:'long',day:'numeric'}):'');
+        if(first && featuredWrap){
+          featuredWrap.innerHTML=`<div class="featured-card">${d.imageUrl?`<img src="${d.imageUrl}" alt="${d.title}" class="featured-img">`:`<div class="img-placeholder-inner"><i class="fas fa-graduation-cap"></i><p>Featured</p></div>`}<div class="featured-text"><div class="blog-meta">${dateStr} &bull; ${d.category||'News'}</div><h3>${d.title}</h3><p>${d.excerpt||''}</p></div></div>`;
+          first=false; return;
+        }
+        grid.innerHTML+=`<div class="blog-card">${d.imageUrl?`<img src="${d.imageUrl}" alt="${d.title}" class="blog-card-img">`:`<div class="blog-card-img img-placeholder-inner" style="height:190px;display:flex;align-items:center;justify-content:center;"><i class="fas fa-newspaper" style="font-size:2rem;opacity:.3"></i></div>`}<div class="blog-card-content"><div class="blog-meta">${dateStr} &bull; ${d.category||'News'}</div><h3>${d.title}</h3><p>${(d.excerpt||'').slice(0,120)}…</p></div></div>`;
+      });
+      // also sync to news page
+      const dst=document.getElementById('newsGridFull'); if(dst&&grid.innerHTML) dst.innerHTML=grid.innerHTML;
+      const faFull=document.getElementById('featuredArticleFull');
+      if(faFull&&featuredWrap&&featuredWrap.innerHTML) faFull.innerHTML=featuredWrap.innerHTML;
+    });
+    // partners
+    m.onSnapshot(m.collection(db,'partners'), snap => {
+      const grid=document.getElementById('partnersLogoGrid'); if(!grid) return;
+      grid.innerHTML='';
+      snap.forEach(p=>{
+        const d=p.data();
+        grid.innerHTML+=d.logoUrl?`<div class="partner-logo-item" style="display:flex;align-items:center;justify-content:center;"><img src="${d.logoUrl}" alt="${d.name||''}" style="max-height:60px;max-width:140px;object-fit:contain;"></div>`:`<div class="partner-logo-item" style="font-weight:700;color:var(--navy);font-size:.9rem;">${d.name||''}</div>`;
+      });
+    });
+  });
+}
+
+
+// Newsletter subscribe
+window.subscribeNewsletter = async function(e) {
+  e.preventDefault();
+  const email = document.getElementById('newsletterEmail')?.value?.trim();
+  if (!email) return;
+  try {
+    await addDoc(collection(db,'newsletterSubscribers'), { email, subscribedAt: serverTimestamp() });
+    const msg = document.getElementById('newsletterMsg');
+    if (msg) { msg.style.display='block'; }
+    document.getElementById('newsletterEmail').value='';
+  } catch(err) { alert('Subscription failed. Please try again.'); }
+};
+
+// Contact form
+window.submitContactForm = async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const data = {
+    name: form.contactName.value.trim(),
+    email: form.contactEmail.value.trim(),
+    phone: form.contactPhone?.value?.trim()||'',
+    subject: form.contactSubject.value,
+    message: form.contactMessage.value.trim(),
+    submittedAt: serverTimestamp()
+  };
+  try {
+    await addDoc(collection(db,'contactMessages'), data);
+    document.getElementById('contactSuccess').style.display='block';
+    form.reset();
+    setTimeout(()=>document.getElementById('contactSuccess').style.display='none',5000);
+  } catch(err) { alert('Failed to send. Please email us directly.'); }
+};
+
+// Volunteer form
+window.submitVolunteerForm = async function(e) {
+  e.preventDefault();
+  const form = e.target;
+  try {
+    await addDoc(collection(db,'volunteerApplications'), {
+      name: form.vName.value.trim(), email: form.vEmail.value.trim(),
+      phone: form.vPhone?.value?.trim()||'', skills: form.vSkills?.value?.trim()||'',
+      availability: form.vAvailability?.value||'', submittedAt: serverTimestamp()
+    });
+    document.getElementById('volunteerSuccess').style.display='block';
+    form.reset();
+    setTimeout(()=>document.getElementById('volunteerSuccess').style.display='none',5000);
+  } catch(err) { alert('Submission failed. Please try again.'); }
+};
+</script>
+
+<!-- Payment SDKs -->
+
+
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════════════ -->
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">
+      <a href="#" onclick="showPage('home');return false;">
+        <img src="logo.png" alt="LISAF Logo" class="logo-img site-logo-img">
+        <span>Lift and Serve All Foundation</span>
+      </a>
+    </div>
+    <ul class="nav-menu" id="navMenu">
+      <li><span class="nav-link active" data-page="home" onclick="showPage('home')">Home</span></li>
+      <li><span class="nav-link" data-page="about" onclick="showPage('about')">About Us</span></li>
+      <li><span class="nav-link" data-page="programs" onclick="showPage('programs')">Programs &amp; Impact</span></li>
+      <li><span class="nav-link" data-page="involved" onclick="showPage('involved')">Get Involved</span></li>
+      <li><span class="nav-link" data-page="donate" onclick="showPage('donate')">Donate</span></li>
+      <li><span class="nav-link" data-page="news" onclick="showPage('news')">News &amp; Blog</span></li>
+      <li><span class="nav-link" data-page="contact" onclick="showPage('contact')">Contact Us</span></li>
+      <li><span class="nav-link" data-page="faqs" onclick="showPage('faqs')">FAQs</span></li>
+    </ul>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: HOME
+═══════════════════════════════════════════════════════ -->
+<div id="page-home" class="page-section active">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <h1 id="heroTitle">Transforming Lives Through Education</h1>
+          <p class="hero-tagline" id="heroSubtitle">Lift and Serve All Foundation is dedicated to transforming the lives of children in underserved communities through education, breaking barriers and creating brighter futures.</p>
+          <div class="hero-buttons">
+            <button class="btn btn-primary" onclick="openDonateModal()"><i class="fas fa-heart"></i> Donate Now</button>
+            <button class="btn btn-white" onclick="showPage('programs')">Our Programs</button>
+          </div>
+        </div>
+        <div class="hero-image-wrap">
+          <img id="heroImg" src="children.jpg" alt="Children learning">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-section">
+    <div class="container">
+      <h2>Our Impact</h2>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-child"></i></div><div class="stat-number" data-stat="children">1000+</div><div class="stat-label">Children Supported</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div><div class="stat-number" data-stat="communities">25+</div><div class="stat-label">Communities Reached</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-handshake"></i></div><div class="stat-number" data-stat="partners">100+</div><div class="stat-label">Global Partners</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-school"></i></div><div class="stat-number" data-stat="schools">15</div><div class="stat-label">Schools Partnered</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA strip -->
+  <section class="cta-strip">
+    <div class="container">
+      <h2>Join us in transforming lives through education</h2>
+      <p>Donate, Volunteer, or Partner today!</p>
+      <div class="btn-group">
+        <button class="btn btn-primary" onclick="openDonateModal()">Donate</button>
+        <button class="btn btn-white" onclick="showPage('involved')">Volunteer</button>
+        <button class="btn btn-outline" style="border-color:#fff;color:#fff;" onclick="showPage('contact')">Partner</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About preview -->
+  <section class="about-section">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-text">
+          <h2>About Lift and Serve All Foundation</h2>
+          <p id="aboutText1">Lift and Serve All Foundation is a non-profit organization dedicated to transforming the lives of children in underserved communities through education. We believe that every child deserves the opportunity to learn, grow, and achieve their dreams, regardless of their background or circumstances.</p>
+          <p id="aboutText2">By lifting young minds with access to quality education and serving communities with care and support, we aim to break barriers, reduce inequality, and create brighter futures.</p>
+          <button class="btn btn-primary" onclick="showPage('about')">Learn More</button>
+        </div>
+        <div class="team-photo-wrap">
+          <img id="teamImg" src="LASA Team.jpg" alt="Our Team">
+          <p class="caption">Our Team</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Programs preview -->
+  <section class="programs-section alt-bg">
+    <div class="container">
+      <h2 style="text-align:center;">Our Programs</h2>
+      <div class="programs-grid">
+        <div class="program-card"><div class="program-icon"><i class="fas fa-school"></i></div><h3>School Access Support</h3><p>Helping children in rural communities enroll and stay in school.</p></div>
+        <div class="program-card"><div class="program-icon"><i class="fas fa-book"></i></div><h3>Learning Materials Drive</h3><p>Supplying books, uniforms, and educational resources.</p></div>
+        <div class="program-card"><div class="program-icon"><i class="fas fa-user-graduate"></i></div><h3>Mentorship &amp; Tutoring</h3><p>Guiding children to develop confidence and skills.</p></div>
+        <div class="program-card"><div class="program-icon"><i class="fas fa-users"></i></div><h3>Community Engagement</h3><p>Working with parents and local leaders to sustain progress.</p></div>
+      </div>
+      <div style="text-align:center;margin-top:2rem;">
+        <button class="btn btn-primary" onclick="showPage('programs')">View All Programs</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- News preview -->
+  <section class="programs-section">
+    <div class="container">
+      <h2 style="text-align:center;margin-bottom:1rem;">Latest News</h2>
+      <div id="featuredArticle"></div>
+      <div id="newsGrid" class="blog-grid" style="margin-top:2rem;"></div>
+      <div style="text-align:center;margin-top:2rem;">
+        <button class="btn btn-primary" onclick="showPage('news')">View All News</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Partners logos -->
+  <section class="stats-section">
+    <div class="container" style="text-align:center;">
+      <h2>Our Partners</h2>
+      <div id="partnersLogoGrid" style="display:flex;flex-wrap:wrap;gap:2rem;justify-content:center;align-items:center;margin-top:2rem;"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: ABOUT
+═══════════════════════════════════════════════════════ -->
+<div id="page-about" class="page-section">
+  <div class="page-header"><div class="container"><h1>About Us</h1><p>Learn about our mission to transform the lives of children in underserved communities through education</p></div></div>
+  <div class="page-content"><div class="container">
+
+    <!-- Who We Are -->
+    <div class="content-section">
+      <h2>Who We Are</h2>
+      <div class="about-grid">
+        <div class="about-text">
+          <h3>Our Foundation</h3>
+          <p>Lift and Serve All Foundation is a non-profit organization dedicated to transforming the lives of children in underserved communities through education. We believe that every child deserves the opportunity to learn, grow, and achieve their dreams, regardless of their background or circumstances.</p>
+          <p>By lifting young minds with access to quality education and serving communities with care and support, we aim to break barriers, reduce inequality, and create brighter futures.</p>
+        </div>
+        <div class="team-photo-wrap">
+          <img id="teamImg2" src="LASA Team.jpg" alt="Our Team" class="site-team-img">
+          <p class="caption">Our Team</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Our Story -->
+    <div class="content-section">
+      <h2>Our Story</h2>
+      <div class="about-grid">
+        <div>
+          <div id="storyImgWrap" class="img-placeholder" style="min-height:240px;">
+            <img id="storyImg" src="" alt="Our Journey" style="display:none;width:100%;border-radius:10px;">
+            <div class="img-placeholder-inner" id="storyPlaceholder"><i class="fas fa-heart"></i><p>Our Journey</p></div>
+          </div>
+        </div>
+        <div class="about-text">
+          <h3>The Beginning</h3>
+          <p>The establishment of Lift and Serve All Foundation is driven by a vision to uplift the vulnerable and those living in disadvantaged communities by granting them access to quality education and opportunities for growth.</p>
+          <p>As recorded in the scripture, <em>"The glory of God is intelligence, or, in other words, light and truth."</em> Guided by this divine principle, we believe that by bringing light and truth through education, we can help transform lives, strengthen families, and build stronger communities.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Vision & Mission -->
+    <div class="content-section">
+      <h2>Vision &amp; Mission</h2>
+      <div class="content-grid">
+        <div class="content-card">
+          <div class="card-icon"><i class="fas fa-eye"></i></div>
+          <h3>Our Vision</h3>
+          <p><strong>"A world where every child, regardless of background or location, has equal access to education, the chance to unlock their potential, and the support to build a brighter future for themselves and their communities."</strong></p>
+        </div>
+        <div class="content-card">
+          <div class="card-icon"><i class="fas fa-bullseye"></i></div>
+          <h3>Our Mission</h3>
+          <p><strong>"To break barriers for children in underserved communities by providing access to education, resources, and mentorship. We uplift young minds and serve with compassion, ensuring every child has the opportunity to thrive."</strong></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Values -->
+    <div class="content-section">
+      <h2>Our Core Values</h2>
+      <div class="values-grid">
+        <div class="value-card"><div class="value-icon"><i class="fas fa-graduation-cap"></i></div><h3>Education First</h3><p>Learning is the foundation for lasting change.</p></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-balance-scale"></i></div><h3>Equity</h3><p>Every child deserves equal opportunities.</p></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-heart"></i></div><h3>Compassion</h3><p>Serving with empathy, kindness, and respect.</p></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-rocket"></i></div><h3>Empowerment</h3><p>Helping children believe in their potential.</p></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-users"></i></div><h3>Community</h3><p>Partnering with families and local leaders for impact.</p></div>
+        <div class="value-card"><div class="value-icon"><i class="fas fa-shield-alt"></i></div><h3>Integrity</h3><p>Transparency, accountability, and trust in all we do.</p></div>
+      </div>
+    </div>
+
+    <!-- Team -->
+    <div class="content-section">
+      <h2>Meet Our Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-member-photo"><img id="teamMemberImg1" src="" alt="Michael" style="display:none;"><div class="img-placeholder-inner"><i class="fas fa-user"></i></div></div>
+          <h3>Michael Egunjobi</h3><p class="role">Director</p>
+          <p>Passionate educator with over 10 years of experience in community development and educational advocacy.</p>
+          <p style="font-size:.85rem;"><strong>Contact:</strong> michael@liftandservefoundation.com</p>
+        </div>
+        <div class="team-card">
+          <div class="team-member-photo"><img id="teamMemberImg2" src="" alt="Emmanuel" style="display:none;"><div class="img-placeholder-inner"><i class="fas fa-user"></i></div></div>
+          <h3>Emmanuel C. Kelly</h3><p class="role">Program Director</p>
+          <p>Dedicated to creating sustainable educational programs that make a lasting impact in rural communities.</p>
+          <p style="font-size:.85rem;"><strong>Contact:</strong> emmanuel@liftandservefoundation.com</p>
+        </div>
+        <div class="team-card">
+          <div class="team-member-photo"><img id="teamMemberImg3" src="" alt="Team" style="display:none;"><div class="img-placeholder-inner"><i class="fas fa-user"></i></div></div>
+          <h3>Elizabeth Gbadebo</h3><p class="role">Outreach Coordinator</p>
+          <p>Expert in building partnerships and connecting communities with educational resources.</p>
+          <p style="font-size:.85rem;"><strong>Contact:</strong> elizabeth@liftandservefoundation.com</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact Numbers -->
+    <div class="content-section">
+      <h2>Our Impact in Numbers</h2>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-graduation-cap"></i></div><div class="stat-number" data-stat="children">500+</div><div class="stat-label">Students Supported</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-school"></i></div><div class="stat-number" data-stat="schools">15</div><div class="stat-label">Schools Partnered</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div><div class="stat-number" data-stat="communities">10+</div><div class="stat-label">Communities Reached</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-handshake"></i></div><div class="stat-number" data-stat="partners">50+</div><div class="stat-label">Global Partners</div></div>
+      </div>
+    </div>
+
+    <div class="content-section" style="text-align:center;">
+      <h2>Join Our Mission</h2>
+      <p>Together, we can ensure that every child has access to quality education.</p>
+      <div class="btn-group" style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="openDonateModal()">Donate Now</button>
+        <button class="btn btn-secondary" onclick="showPage('involved')">Get Involved</button>
+        <button class="btn btn-outline" onclick="showPage('contact')">Contact Us</button>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: PROGRAMS
+═══════════════════════════════════════════════════════ -->
+<div id="page-programs" class="page-section">
+  <div class="page-header"><div class="container"><h1>Programs &amp; Impact</h1><p>Transforming lives through education — see how our programs are making a difference</p></div></div>
+  <div class="page-content"><div class="container">
+
+    <div class="content-section">
+      <h2>Our Programs</h2>
+      <p style="text-align:center;max-width:700px;margin:0 auto 2rem;">We run comprehensive educational programs designed to support vulnerable children and underserved communities.</p>
+      <div class="programs-grid">
+        <div class="program-card"><div class="program-icon"><i class="fas fa-graduation-cap"></i></div><h3>Scholarship Support</h3><p>Comprehensive scholarship programs covering tuition fees, school supplies, and educational expenses for children in need.</p><ul><li>Full and partial tuition coverage</li><li>School supplies and uniforms</li><li>Transportation assistance</li><li>Academic support and tutoring</li></ul><div class="program-stats"><strong>Impact:</strong> 200+ students currently supported</div></div>
+        <div class="program-card"><div class="program-icon"><i class="fas fa-book"></i></div><h3>School Supplies Donation</h3><p>Regular drives to provide essential learning materials to students who cannot afford them.</p><ul><li>Textbooks and workbooks</li><li>Writing materials and stationery</li><li>Digital learning tools</li><li>Educational games and resources</li></ul><div class="program-stats"><strong>Impact:</strong> 1,000+ students equipped last year</div></div>
+        <div class="program-card"><div class="program-icon"><i class="fas fa-school"></i></div><h3>Community Learning Centers</h3><p>Safe, well-equipped learning spaces in rural communities where educational infrastructure is lacking.</p><ul><li>Modern learning facilities</li><li>Computer labs and internet access</li><li>Library and reading corners</li><li>After-school programs</li></ul><div class="program-stats"><strong>Impact:</strong> 5 centers established</div></div>
+        <div class="program-card"><div class="program-icon"><i class="fas fa-user-graduate"></i></div><h3>Mentorship &amp; Skills Training</h3><p>Guidance and skill development programs to help young people build confidence and prepare for their futures.</p><ul><li>One-on-one mentorship</li><li>Career guidance and counseling</li><li>Life skills workshops</li><li>Leadership development programs</li></ul><div class="program-stats"><strong>Impact:</strong> 150+ youth mentored</div></div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="content-section">
+      <h2>Program Gallery</h2>
+      <p style="text-align:center;margin-bottom:.5rem;">See our programs in action through photos from our work in communities.</p>
+      <div class="gallery-grid">
+        <div class="gallery-item"><img id="galleryImg1" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder1"><i class="fas fa-graduation-cap"></i><p>Scholarship Ceremony</p></div></div>
+        <div class="gallery-item"><img id="galleryImg2" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder2"><i class="fas fa-book"></i><p>Book Distribution</p></div></div>
+        <div class="gallery-item"><img id="galleryImg3" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder3"><i class="fas fa-school"></i><p>Learning Center</p></div></div>
+        <div class="gallery-item"><img id="galleryImg4" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder4"><i class="fas fa-users"></i><p>Community Workshop</p></div></div>
+        <div class="gallery-item"><img id="galleryImg5" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder5"><i class="fas fa-laptop"></i><p>Digital Learning</p></div></div>
+        <div class="gallery-item"><img id="galleryImg6" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder6"><i class="fas fa-heart"></i><p>Volunteer Activities</p></div></div>
+      </div>
+    </div>
+
+    <!-- Success Stories -->
+    <div class="content-section">
+      <h2>Success Stories</h2>
+      <div class="stories-grid">
+        <div class="story-card"><div class="img-placeholder" style="height:150px;margin-bottom:1rem;"><div class="img-placeholder-inner"><i class="fas fa-user-graduate"></i><p>Aminata's Story</p></div></div><h3>Aminata's Journey</h3><p><strong>"From Dropout to Scholar"</strong></p><p>Aminata, a 10-year-old girl from a rural community, was at risk of dropping out due to financial hardship. Our scholarship program changed everything.</p><blockquote>"Education opened doors I never thought existed. I want to become a teacher one day."</blockquote><p><strong>Current Status:</strong> Top of her class, aspiring teacher</p></div>
+        <div class="story-card"><div class="img-placeholder" style="height:150px;margin-bottom:1rem;"><div class="img-placeholder-inner"><i class="fas fa-users"></i><p>Community Impact</p></div></div><h3>Rural Community Transformation</h3><p><strong>"Building Hope Through Education"</strong></p><p>In a remote village where children had to walk 5 miles to the nearest school, we established a community learning center. Now, 50+ children have access to quality education.</p><blockquote>"The learning center has changed our village. Our children are learning, and we can see hope for their future."</blockquote></div>
+        <div class="story-card"><div class="img-placeholder" style="height:150px;margin-bottom:1rem;"><div class="img-placeholder-inner"><i class="fas fa-laptop"></i><p>Digital Learning</p></div></div><h3>Digital Literacy Program</h3><p><strong>"Bridging the Digital Divide"</strong></p><p>Through our digital learning initiative, we've equipped rural schools with computers and internet access, giving students skills for the modern world.</p><blockquote>"I never thought I would learn to use a computer. Now I want to study computer science."</blockquote></div>
+      </div>
+    </div>
+
+    <!-- Impact Numbers -->
+    <div class="content-section">
+      <h2>Our Impact in Numbers</h2>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-child"></i></div><div class="stat-number" data-stat="children">500+</div><div class="stat-label">Children Supported</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-school"></i></div><div class="stat-number" data-stat="schools">15</div><div class="stat-label">Schools Partnered</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div><div class="stat-number" data-stat="communities">10+</div><div class="stat-label">Communities Reached</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-book"></i></div><div class="stat-number" data-stat="books">1,000+</div><div class="stat-label">Books Distributed</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-laptop"></i></div><div class="stat-number">300+</div><div class="stat-label">Digital Literacy Trained</div></div>
+        <div class="stat-card"><div class="stat-icon"><i class="fas fa-user-graduate"></i></div><div class="stat-number" data-stat="mentored">150+</div><div class="stat-label">Youth Mentored</div></div>
+      </div>
+    </div>
+
+    <div class="content-section" style="text-align:center;">
+      <h2>Help Us Expand Our Impact</h2>
+      <p>Your support helps us reach more children and communities.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="openDonateModal()">Donate Now</button>
+        <button class="btn btn-secondary" onclick="showPage('involved')">Volunteer</button>
+        <button class="btn btn-outline" onclick="showPage('contact')">Partner With Us</button>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: GET INVOLVED
+═══════════════════════════════════════════════════════ -->
+<div id="page-involved" class="page-section">
+  <div class="page-header"><div class="container"><h1>Get Involved</h1><p>Education is a journey, and we cannot do it alone. Your involvement can change a life forever.</p></div></div>
+  <div class="page-content"><div class="container">
+
+    <div class="content-section" style="text-align:center;">
+      <h2>Join Our Mission</h2>
+      <p>There are many ways to support our mission. Whether you have time, resources, or expertise to share, your contribution makes a real difference.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Ways to Get Involved</h2>
+      <div class="involved-grid">
+        <div class="involved-card"><div class="involved-icon"><i class="fas fa-hands-helping"></i></div><h3>Volunteer</h3><p>Join our team on projects and outreach programs.</p><ul><li>Teaching &amp; Tutoring</li><li>Community Outreach</li><li>Event Organization</li><li>Administrative Support</li><li>Digital Support</li><li>Translation Services</li></ul><a href="#volunteer-form" class="btn btn-primary" onclick="document.getElementById('volunteer-form').scrollIntoView({behavior:'smooth'})">Apply to Volunteer</a></div>
+        <div class="involved-card"><div class="involved-icon"><i class="fas fa-handshake"></i></div><h3>Partner With Us</h3><p>Collaborate as a school, business, or organization.</p><ul><li>Corporate Partnerships (CSR)</li><li>Educational Institutions</li><li>NGO Collaborations</li><li>Government Agencies</li><li>Media Partners</li><li>Technology Partners</li></ul><button class="btn btn-primary" onclick="showPage('contact')">Become a Partner</button></div>
+        <div class="involved-card"><div class="involved-icon"><i class="fas fa-users"></i></div><h3>Membership</h3><p>Become part of our growing community.</p>
+          <div class="membership-tiers">
+            <div class="tier-card"><h4>Student</h4><div class="price">Free</div></div>
+            <div class="tier-card"><h4>Individual</h4><div class="price">$25/yr</div></div>
+            <div class="tier-card"><h4>Family</h4><div class="price">$50/yr</div></div>
+            <div class="tier-card"><h4>Professional</h4><div class="price">$100/yr</div></div>
+          </div>
+          <button class="btn btn-primary" style="margin-top:1rem;" onclick="openDonateModal()">Join Now</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Volunteer Application Form -->
+    <div class="content-section" id="volunteer-form">
+      <h2>Volunteer Application</h2>
+      <div class="form-card">
+        <div id="volunteerSuccess" class="success-msg"><i class="fas fa-check-circle"></i> Application submitted! We'll be in touch soon.</div>
+        <form onsubmit="submitVolunteerForm(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Full Name *</label><input type="text" name="vName" required></div>
+            <div class="form-group"><label>Email Address *</label><input type="email" name="vEmail" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Phone Number</label><input type="tel" name="vPhone"></div>
+            <div class="form-group"><label>Availability</label>
+              <select name="vAvailability"><option value="">Select availability</option><option>Weekdays</option><option>Weekends</option><option>Evenings</option><option>Flexible</option></select>
+            </div>
+          </div>
+          <div class="form-group"><label>Skills &amp; Experience</label><textarea name="vSkills" placeholder="Tell us about your skills and what you'd like to help with…"></textarea></div>
+          <div class="form-group"><label>Areas of Interest</label>
+            <div class="checkbox-grid">
+              <label><input type="checkbox"> Teaching &amp; Tutoring</label>
+              <label><input type="checkbox"> Community Outreach</label>
+              <label><input type="checkbox"> Event Organization</label>
+              <label><input type="checkbox"> Administrative Support</label>
+              <label><input type="checkbox"> Digital Support</label>
+              <label><input type="checkbox"> Translation</label>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Submit Application</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="content-section" style="text-align:center;">
+      <h2>Ready to Make a Difference?</h2>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="openDonateModal()">Donate Now</button>
+        <button class="btn btn-secondary" onclick="showPage('contact')">Contact Us</button>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: DONATE
+═══════════════════════════════════════════════════════ -->
+<div id="page-donate" class="page-section">
+  <div class="page-header"><div class="container"><h1>Donate</h1><p>Your generosity makes dreams possible. Every donation, no matter how small, has the power to change lives.</p></div></div>
+  <div class="page-content"><div class="container">
+
+    <div class="content-section" style="text-align:center;">
+      <h2>How Your Donation Helps</h2>
+      <p>With your help, we can expand scholarships, build community centers, and ensure children in rural areas never have to give up on their education.</p>
+      <div class="impact-grid">
+        <div class="impact-card"><div class="impact-icon"><i class="fas fa-graduation-cap"></i></div><h3>$25</h3><p>Provides school supplies for one child for a month</p></div>
+        <div class="impact-card"><div class="impact-icon"><i class="fas fa-book"></i></div><h3>$50</h3><p>Sponsors textbooks for 5 students</p></div>
+        <div class="impact-card"><div class="impact-icon"><i class="fas fa-school"></i></div><h3>$100</h3><p>Covers monthly tuition for one student</p></div>
+        <div class="impact-card"><div class="impact-icon"><i class="fas fa-laptop"></i></div><h3>$500</h3><p>Equips a learning center with computers</p></div>
+      </div>
+    </div>
+
+    <!-- Donation Form -->
+    <div class="content-section">
+      <h2>Make a Donation</h2>
+      <div class="donation-form-wrap">
+        <div class="form-group"><label>Donation Amount</label>
+          <div class="amount-buttons">
+            <button class="amount-btn" onclick="selectAmount(25,this)">$25</button>
+            <button class="amount-btn" onclick="selectAmount(50,this)">$50</button>
+            <button class="amount-btn" onclick="selectAmount(100,this)">$100</button>
+            <button class="amount-btn" onclick="selectAmount(250,this)">$250</button>
+            <button class="amount-btn" onclick="selectAmount(500,this)">$500</button>
+            <button class="amount-btn" onclick="selectAmount(1000,this)">$1000</button>
+          </div>
+          <div class="form-group" style="margin-top:.8rem;">
+            <label>Custom Amount ($)</label>
+            <input type="number" id="donateCustomAmount" min="1" placeholder="Enter amount" oninput="donateAmount=parseFloat(this.value)||0;document.querySelectorAll('.amount-btn').forEach(b=>b.classList.remove('selected'));">
+          </div>
+        </div>
+        <div class="form-group"><label>Donation Type</label>
+          <div style="display:flex;gap:2rem;margin-top:.5rem;">
+            <label><input type="radio" name="donType" value="one-time" checked> One-time Donation</label>
+            <label><input type="radio" name="donType" value="monthly"> Monthly Donation</label>
+          </div>
+        </div>
+        <h3 style="margin-bottom:1rem;">Donor Information</h3>
+        <div class="form-row">
+          <div class="form-group"><label>First Name *</label><input type="text" id="donorFirst" required></div>
+          <div class="form-group"><label>Last Name *</label><input type="text" id="donorLast" required></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Email Address *</label><input type="email" id="donorEmail" required></div>
+          <div class="form-group"><label>Phone Number</label><input type="tel" id="donorPhone"></div>
+        </div>
+        <div class="form-group"><label>Dedication (Optional)</label><textarea id="donorDedication" rows="2" placeholder="Dedicate this donation in honor or memory of someone special…"></textarea></div>
+        <h3 style="margin-bottom:1rem;">Choose Payment Method</h3>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:1.5rem;">
+          <button class="btn btn-primary" onclick="triggerDonateFlutterwave()" style="flex:1;min-width:140px;"><i class="fas fa-mobile-alt"></i> Flutterwave</button>
+          <button class="btn btn-secondary" onclick="triggerDonatePaystack()" style="flex:1;min-width:140px;"><i class="fas fa-credit-card"></i> Paystack</button>
+        </div>
+        <p style="font-size:.8rem;color:#888;text-align:center;"><i class="fas fa-lock"></i> Payments are secured and encrypted. Your data is never stored on our servers.</p>
+      </div>
+    </div>
+
+    <!-- Other Ways to Donate -->
+    <div class="content-section">
+      <h2>Other Ways to Donate</h2>
+      <div class="content-grid">
+        <div class="content-card"><div class="card-icon"><i class="fas fa-university"></i></div><h3>Bank Transfer</h3><p>Make a direct bank transfer to our foundation account.</p><div class="bank-details"><p><strong>Account Name:</strong> Lift and Serve All Foundation</p><p><strong>Account Number:</strong> 0032955773</p><p><strong>Bank:</strong> GTBank (Nigeria)</p></div></div>
+        <div class="content-card"><div class="card-icon"><i class="fas fa-mobile-alt"></i></div><h3>Mobile Money</h3><p>Send your donation via mobile money services.</p><div class="bank-details"><p><strong>Nigeria:</strong> +2348031114594</p><p><strong>USA:</strong> +1 (208) 992-6233</p></div></div>
+        <div class="content-card"><div class="card-icon"><i class="fas fa-gift"></i></div><h3>In-Kind Donations</h3><p>Donate books, school supplies, or other educational materials.</p><ul style="padding-left:1.2rem;list-style:disc;font-size:.9rem;"><li>Textbooks and workbooks</li><li>School uniforms</li><li>Computers and tablets</li><li>Educational games</li></ul><button class="btn btn-outline" style="margin-top:.8rem;" onclick="showPage('contact')">Contact Us</button></div>
+        <div class="content-card"><div class="card-icon"><i class="fas fa-building"></i></div><h3>Corporate Giving</h3><p>Partner with us for large-scale impact through corporate donations.</p><ul style="padding-left:1.2rem;list-style:disc;font-size:.9rem;"><li>Tax-deductible contributions</li><li>Employee engagement programs</li><li>Brand recognition</li><li>Impact reporting</li></ul><button class="btn btn-outline" style="margin-top:.8rem;" onclick="showPage('contact')">Learn More</button></div>
+      </div>
+    </div>
+
+    <!-- Transparency -->
+    <div class="content-section">
+      <h2>Transparency &amp; Accountability</h2>
+      <div class="transparency-grid">
+        <div class="transparency-card"><h3>How We Use Donations</h3>
+          <div class="usage-item"><span>Scholarships &amp; Tuition</span><strong>60%</strong></div>
+          <div class="usage-item"><span>School Supplies</span><strong>20%</strong></div>
+          <div class="usage-item"><span>Learning Centers</span><strong>15%</strong></div>
+          <div class="usage-item"><span>Administrative</span><strong>5%</strong></div>
+        </div>
+        <div class="transparency-card"><h3>Financial Reports</h3><p>We publish annual financial reports showing how donations are used.</p><ul style="padding-left:1.2rem;list-style:disc;font-size:.9rem;"><li><a href="#">2024 Annual Report</a></li><li><a href="#">2023 Annual Report</a></li><li><a href="#">Audited Financial Statements</a></li></ul></div>
+        <div class="transparency-card"><h3>Donor Recognition</h3>
+          <div class="recognition-grid" style="grid-template-columns:1fr;gap:.8rem;">
+            <div class="recognition-card"><div class="recognition-icon"><i class="fas fa-heart"></i></div><strong>Friends of Education</strong><p>$25–$99 — Thank you letter + newsletter</p></div>
+            <div class="recognition-card"><div class="recognition-icon"><i class="fas fa-star"></i></div><strong>Education Champions</strong><p>$100–$499 — Certificate of appreciation + impact report</p></div>
+            <div class="recognition-card"><div class="recognition-icon"><i class="fas fa-crown"></i></div><strong>Education Leaders</strong><p>$500+ — Donor wall + annual mention</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: NEWS & BLOG
+═══════════════════════════════════════════════════════ -->
+<div id="page-news" class="page-section">
+  <div class="page-header"><div class="container"><h1>News &amp; Blog</h1><p>Stay updated with our latest projects, inspiring stories, and news on education across the globe</p></div></div>
+  <div class="page-content"><div class="container">
+
+    <div class="content-section">
+      <h2>Featured Story</h2>
+      <div id="featuredArticleFull">
+        <div class="featured-card">
+          <div class="img-placeholder" style="min-height:280px;"><div class="img-placeholder-inner"><i class="fas fa-graduation-cap"></i><p>Featured Article</p></div></div>
+          <div class="featured-text">
+            <div class="blog-meta">December 15, 2024 &bull; Success Story</div>
+            <h3>How Rural Communities Benefit from Our Learning Centers</h3>
+            <p>Discover how our community learning centers are transforming education in remote areas, providing children with access to quality learning resources they never had before.</p>
+            <a href="#" class="btn btn-primary">Read More</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Latest Articles</h2>
+      <div id="newsGridFull" class="blog-grid">
+        <!-- Populated from Firebase -->
+        <div class="blog-card"><div class="img-placeholder blog-card-img" style="height:190px;"><div class="img-placeholder-inner"><i class="fas fa-hands-helping"></i></div></div><div class="blog-card-content"><div class="blog-meta">Dec 10, 2024 &bull; Volunteer Story</div><h3>Volunteer Experience: Changing Lives in Just One Week</h3><p>Sarah Johnson shares her transformative experience volunteering with our foundation.</p></div></div>
+        <div class="blog-card"><div class="img-placeholder blog-card-img" style="height:190px;"><div class="img-placeholder-inner"><i class="fas fa-chart-line"></i></div></div><div class="blog-card-content"><div class="blog-meta">Dec 5, 2024 &bull; Impact Report</div><h3>Why Education is the Key to Breaking Poverty Cycles</h3><p>An in-depth analysis of how quality education creates lasting change in communities.</p></div></div>
+        <div class="blog-card"><div class="img-placeholder blog-card-img" style="height:190px;"><div class="img-placeholder-inner"><i class="fas fa-laptop"></i></div></div><div class="blog-card-content"><div class="blog-meta">Nov 28, 2024 &bull; Technology</div><h3>Bridging the Digital Divide in Rural Education</h3><p>How we're using technology to bring modern learning tools to rural communities.</p></div></div>
+        <div class="blog-card"><div class="img-placeholder blog-card-img" style="height:190px;"><div class="img-placeholder-inner"><i class="fas fa-users"></i></div></div><div class="blog-card-content"><div class="blog-meta">Nov 20, 2024 &bull; Community Story</div><h3>Building Hope Through Community Partnerships</h3><p>Learn how our partnerships with local communities are creating sustainable educational solutions.</p></div></div>
+        <div class="blog-card"><div class="img-placeholder blog-card-img" style="height:190px;"><div class="img-placeholder-inner"><i class="fas fa-heart"></i></div></div><div class="blog-card-content"><div class="blog-meta">Nov 15, 2024 &bull; Donor Spotlight</div><h3>From Donor to Advocate: One Family's Journey</h3><p>The inspiring story of how one family's donation led to lifelong educational advocacy.</p></div></div>
+        <div class="blog-card"><div class="img-placeholder blog-card-img" style="height:190px;"><div class="img-placeholder-inner"><i class="fas fa-globe"></i></div></div><div class="blog-card-content"><div class="blog-meta">Nov 10, 2024 &bull; Global News</div><h3>Education for All: A Global Movement</h3><p>How organizations worldwide are working together to ensure every child has access to quality education.</p></div></div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Press Releases</h2>
+      <div class="press-item"><div class="press-date">December 1, 2024</div><h3>LISAF Announces New Scholarship Program</h3><p>We're excited to announce the launch of our new scholarship program supporting 100 additional students.</p><a href="#" class="btn btn-outline" style="margin-top:.8rem;">Read Press Release</a></div>
+      <div class="press-item"><div class="press-date">November 15, 2024</div><h3>Foundation Receives International Recognition</h3><p>LISAF has been recognized by the Global Education Network for outstanding contribution to rural education.</p><a href="#" class="btn btn-outline" style="margin-top:.8rem;">Read Press Release</a></div>
+      <div class="press-item"><div class="press-date">October 30, 2024</div><h3>New Learning Center Opens</h3><p>Our fifth community learning center officially opened, providing resources to over 200 children.</p><a href="#" class="btn btn-outline" style="margin-top:.8rem;">Read Press Release</a></div>
+    </div>
+
+    <div class="content-section">
+      <h2>Media Mentions</h2>
+      <div class="media-grid">
+        <div class="media-item"><div class="media-logo"><i class="fas fa-newspaper"></i></div><h3>Education Times</h3><p>"Lift and Serve All Foundation's innovative approach to rural education is setting new standards for community development."</p><a href="#">Read Article</a></div>
+        <div class="media-item"><div class="media-logo"><i class="fas fa-tv"></i></div><h3>GTV Education Program</h3><p>Featured segment on our digital learning initiatives and their impact on rural communities.</p><a href="#">Watch Segment</a></div>
+        <div class="media-item"><div class="media-logo"><i class="fas fa-microphone"></i></div><h3>Radio Interview</h3><p>Interview with our founder about the importance of education in breaking poverty cycles.</p><a href="#">Listen Now</a></div>
+      </div>
+    </div>
+
+    <div class="content-section" style="text-align:center;">
+      <h2>Stay Updated</h2>
+      <p>Subscribe to our newsletter to receive the latest updates on our programs and success stories.</p>
+      <form style="max-width:480px;margin:1rem auto 0;" onsubmit="subscribeNewsletter(event)">
+        <div style="display:flex;gap:.8rem;">
+          <input type="email" id="newsletterEmailNews" placeholder="Enter your email address" required style="flex:1;padding:12px;border:1.5px solid var(--border);border-radius:6px;font-family:'Montserrat',sans-serif;">
+          <button class="btn btn-primary" type="submit">Subscribe</button>
+        </div>
+      </form>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: CONTACT
+═══════════════════════════════════════════════════════ -->
+<div id="page-contact" class="page-section">
+  <div class="page-header"><div class="container"><h1>Contact Us</h1><p>We'd love to hear from you. Get in touch for inquiries, partnerships, or to learn more about our work.</p></div></div>
+  <div class="page-content"><div class="container">
+
+    <div class="content-section">
+      <h2>Get in Touch</h2>
+      <div class="contact-info-grid">
+        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><h3>Office</h3><p>Lift and Serve All Foundation<br>Global Operations<br>Serving Communities Worldwide</p></div>
+        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-phone"></i></div><h3>Phone</h3><p><strong>Nigeria:</strong> +2348031114594</p><p><strong>USA:</strong> +1 (208) 992-6233</p><p style="font-size:.85rem;">Mon–Fri: 9am–5pm</p></div>
+        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-envelope"></i></div><h3>Email</h3><p><a href="mailto:michael@liftandservefoundation.com">michael@liftandservefoundation.com</a></p><p><a href="mailto:emmanuel@liftandservefoundation.com">emmanuel@liftandservefoundation.com</a></p></div>
+        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-comments"></i></div><h3>Live Chat</h3><p>Available on our website<br>Mon–Fri: 9am–5pm</p><button class="btn btn-primary" onclick="document.getElementById('chatbotToggle').click()">Start Chat</button></div>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Send Us a Message</h2>
+      <div class="form-card">
+        <div id="contactSuccess" class="success-msg"><i class="fas fa-check-circle"></i> Message sent! We'll respond within 24–48 hours.</div>
+        <form onsubmit="submitContactForm(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Full Name *</label><input type="text" name="contactName" required></div>
+            <div class="form-group"><label>Email Address *</label><input type="email" name="contactEmail" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Phone Number</label><input type="tel" name="contactPhone"></div>
+            <div class="form-group"><label>Subject *</label>
+              <select name="contactSubject" required>
+                <option value="">Select a subject</option>
+                <option>General Inquiry</option><option>Donation Question</option>
+                <option>Volunteer Opportunity</option><option>Partnership Inquiry</option>
+                <option>Media Inquiry</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group"><label>Message *</label><textarea name="contactMessage" rows="5" required placeholder="Please tell us how we can help you…"></textarea></div>
+          <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i> Send Message</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Follow Us</h2>
+      <div class="social-media-grid">
+        <div class="social-card"><div class="social-icon facebook"><i class="fab fa-facebook"></i></div><h3>Facebook</h3><p>Daily updates and success stories.</p><a href="#" class="btn btn-outline">Follow Us</a></div>
+        <div class="social-card"><div class="social-icon instagram"><i class="fab fa-instagram"></i></div><h3>Instagram</h3><p>See our work in action through photos from the field.</p><a href="#" class="btn btn-outline">Follow Us</a></div>
+        <div class="social-card"><div class="social-icon linkedin"><i class="fab fa-linkedin"></i></div><h3>LinkedIn</h3><p>Connect professionally and find career opportunities.</p><a href="https://linkedin.com/company/lift-and-serve-all-foundation" target="_blank" rel="noopener noreferrer" class="btn btn-outline">Connect</a></div>
+        <div class="social-card"><div class="social-icon youtube"><i class="fab fa-youtube"></i></div><h3>YouTube</h3><p>Watch impact videos and success stories.</p><a href="#" class="btn btn-outline">Subscribe</a></div>
+      </div>
+    </div>
+
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     PAGE: FAQs
+═══════════════════════════════════════════════════════ -->
+<div id="page-faqs" class="page-section">
+  <div class="page-header"><div class="container"><h1>Frequently Asked Questions</h1><p>Find answers to common questions about our programs, donations, volunteering, and more.</p></div></div>
+  <div class="page-content"><div class="container">
+
+    <div class="faq-search-bar">
+      <input type="text" id="faqSearchInput" placeholder="Search FAQs…" oninput="filterFaqs(this.value)">
+    </div>
+
+    <div id="faqContainer">
+      <!-- DONATIONS -->
+      <div class="faq-category">
+        <h3><i class="fas fa-heart"></i> Donations</h3>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>How can I donate from abroad?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We accept global donations securely via Flutterwave and Paystack. You can also make bank transfers to our foundation account. All donations are tax-deductible and we provide receipts.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>How do I know my donation is being used properly?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We provide regular transparency reports showing how donations are allocated. You can view our annual financial reports, impact updates, and program evaluations on our website.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>Can I make a recurring donation?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes! We offer monthly recurring donations that provide consistent support. You can set up recurring donations through our online donation form or contact us directly.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>What is the minimum donation amount?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>There is no minimum donation amount. Every contribution, no matter how small, makes a difference. Even $25 can provide school supplies for one child for a month.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>Are donations tax-deductible?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes, all donations to Lift and Serve All Foundation are tax-deductible. We provide official receipts for all donations that you can use for tax purposes.</p></div></div>
+      </div>
+      <!-- VOLUNTEERING -->
+      <div class="faq-category">
+        <h3><i class="fas fa-hands-helping"></i> Volunteering</h3>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>Can I volunteer if I'm outside the country?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes! You can volunteer virtually through online tutoring, content creation, translation services, and technical support opportunities from anywhere in the world.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>What skills do I need to volunteer?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We welcome volunteers with various skills and backgrounds. Whether you have teaching experience, technical skills, or simply a passion for education, there's a volunteer opportunity for you.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>How much time do I need to commit?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Time commitments vary depending on the volunteer role. Some opportunities require just a few hours per week, while others are project-based. We're flexible and can work with your schedule.</p></div></div>
+      </div>
+      <!-- PROGRAMS -->
+      <div class="faq-category">
+        <h3><i class="fas fa-graduation-cap"></i> Programs</h3>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>How do you select students for scholarships?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We select students based on financial need, academic potential, and community recommendations, including family interviews and school assessments.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>Can I sponsor a specific student?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes! We offer individual student sponsorship programs where you can support a specific child's education and receive regular updates about their progress.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>What communities do you serve?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>We primarily serve rural and underserved communities, focusing on areas where educational infrastructure is lacking. We've reached over 25 communities and continue to expand.</p></div></div>
+      </div>
+      <!-- GENERAL -->
+      <div class="faq-category">
+        <h3><i class="fas fa-info-circle"></i> General</h3>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>Is Lift and Serve All Foundation a registered organization?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes, Lift and Serve All Foundation is a registered non-profit organization. We operate with full legal compliance and maintain all necessary registrations and certifications.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>Do you accept in-kind donations?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Yes! We accept books, school supplies, computers, tablets, and other learning materials. Contact us to discuss what items we currently need.</p></div></div>
+        <div class="faq-item"><div class="faq-question" onclick="toggleFaq(this)"><span>How can I stay updated on your work?</span><i class="fas fa-chevron-down"></i></div><div class="faq-answer"><p>Subscribe to our newsletter, follow us on social media (Facebook, Instagram, LinkedIn, YouTube), or visit our News &amp; Blog section regularly.</p></div></div>
+      </div>
+    </div>
+
+    <div class="content-section" style="text-align:center;">
+      <h2>Still Have Questions?</h2>
+      <p>If you couldn't find the answer you're looking for, we're here to help!</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <button class="btn btn-primary" onclick="showPage('contact')">Contact Us</button>
+        <button class="btn btn-secondary" onclick="document.getElementById('chatbotToggle').click()">Live Chat</button>
+      </div>
+    </div>
+  </div></div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER (shown on all pages)
+═══════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo-wrap">
+          <img src="logo.png" alt="LISAF Logo" class="site-logo-img" style="height:48px;width:48px;">
+          <span>Lift and Serve All Foundation</span>
+        </div>
+        <p>Transforming the lives of children in underserved communities through education.</p>
+        <div class="social-links">
+          <a href="https://www.facebook.com/liftandserveallfoundation" class="social-link"><i class="fab fa-facebook"></i></a>
+          <a href="https://instagram.com/lift_and_serve_all_foundation" class="social-link"><i class="fab fa-instagram"></i></a>
+          <a href="https://linkedin.com/company/lift-and-serve-all-foundation" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.youtube.com/@LiftandServeAllFoundation" class="social-link" target="_blank" rel="noopener noreferrer"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#" onclick="showPage('about');return false;">About Us</a></li>
+          <li><a href="#" onclick="showPage('programs');return false;">Programs</a></li>
+          <li><a href="#" onclick="showPage('donate');return false;">Donate</a></li>
+          <li><a href="#" onclick="showPage('news');return false;">News &amp; Blog</a></li>
+          <li><a href="#" onclick="showPage('involved');return false;">Get Involved</a></li>
+          <li><a href="#" onclick="showPage('faqs');return false;">FAQs</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact Info</h3>
+        <div class="contact-info-footer">
+          <p><i class="fas fa-phone"></i> +2348031114594</p>
+          <p><i class="fas fa-phone"></i> +1 (208) 992-6233</p>
+          <p><i class="fas fa-envelope"></i> michael@liftandservefoundation.com</p>
+          <p><i class="fas fa-envelope"></i> emmanuel@liftandservefoundation.com</p>
+        </div>
+      </div>
+      <div>
+        <h3>Newsletter</h3>
+        <p>Stay updated with our latest projects and impact stories.</p>
+        <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email" required>
+          <button type="submit" class="btn btn-primary" style="padding:9px 14px;">Subscribe</button>
+        </form>
+        <p class="newsletter-msg" id="newsletterMsg">✓ Subscribed! Thank you.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Lift and Serve All Foundation. All rights reserved.</p>
+      <p class="admin-link"><a href="admin.html">Admin</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════
+     CHATBOT
+═══════════════════════════════════════════════════════ -->
+<div class="chatbot-container">
+  <div class="chatbot-toggle" id="chatbotToggle"><i class="fas fa-comments"></i></div>
+  <div class="chatbot-window" id="chatbotWindow">
+    <div class="chatbot-header"><h3>Live Support</h3><button class="chatbot-close" id="chatbotClose"><i class="fas fa-times"></i></button></div>
+    <div class="chatbot-messages" id="chatbotMessages">
+      <div class="chatbot-message bot-message"><p>Hello! How can I help you today?</p></div>
+    </div>
+    <div class="chatbot-input-area">
+      <input type="text" id="chatbotInput" placeholder="Type your message…">
+      <button id="chatbotSend"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     DONATE MODAL (quick donate from anywhere)
+═══════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="donateModalOverlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeDonateModal()">×</button>
+    <h3><i class="fas fa-heart" style="color:var(--gold);margin-right:.4rem;"></i> Make a Donation</h3>
+    <div class="amount-buttons" style="grid-template-columns:repeat(3,1fr);margin-bottom:.8rem;">
+      <button class="amount-btn" onclick="setModalAmount(25,this)">$25</button>
+      <button class="amount-btn" onclick="setModalAmount(50,this)">$50</button>
+      <button class="amount-btn" onclick="setModalAmount(100,this)">$100</button>
+      <button class="amount-btn" onclick="setModalAmount(250,this)">$250</button>
+      <button class="amount-btn" onclick="setModalAmount(500,this)">$500</button>
+      <button class="amount-btn" onclick="setModalAmount(1000,this)">$1000</button>
+    </div>
+    <input class="modal-input" type="number" id="modalCustomAmt" min="1" placeholder="Or enter custom amount ($)" oninput="modalDonateAmt=parseFloat(this.value)||0;document.querySelectorAll('#donateModalOverlay .amount-btn').forEach(b=>b.classList.remove('selected'));updateModalDisplay();">
+    <div class="modal-amount-display" id="modalAmtDisplay">$0</div>
+    <input class="modal-input" type="text"  id="modalName"  placeholder="Full name *">
+    <input class="modal-input" type="email" id="modalEmail" placeholder="Email address *">
+    <input class="modal-input" type="tel"   id="modalPhone" placeholder="Phone (for mobile money)">
+    <div class="pay-btns">
+      <button class="pay-btn" onclick="modalPayFlutterwave()"><i class="fas fa-mobile-alt"></i> Flutterwave</button>
+      <button class="pay-btn" onclick="modalPayPaystack()"><i class="fas fa-credit-card"></i> Paystack</button>
+    </div>
+    <p class="pay-note"><i class="fas fa-lock"></i> Payments are secured and encrypted.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════
+     SCRIPTS
+═══════════════════════════════════════════════════════ -->
+<script>
+/* ──────────────────────────────
+   SPA NAVIGATION
+────────────────────────────── */
+function showPage(name) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  const page = document.getElementById('page-' + name);
+  if (page) page.classList.add('active');
+  const link = document.querySelector('[data-page="'+name+'"]');
+  if (link) link.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+  closeMenu();
+  // Sync news grid on news page
+  if (name === 'news') syncNewsPage();
+}
+function toggleMenu() {
+  document.getElementById('navMenu').classList.toggle('open');
+}
+function closeMenu() {
+  document.getElementById('navMenu').classList.remove('open');
+}
+// Handle back button / hash
+window.addEventListener('hashchange', () => {
+  const hash = location.hash.replace('#','') || 'home';
+  showPage(hash);
+});
+
+// Sync news grid to full page
+function syncNewsPage() {
+  const src = document.getElementById('newsGrid');
+  const dst = document.getElementById('newsGridFull');
+  if (src && dst && src.innerHTML.trim()) dst.innerHTML = src.innerHTML;
+  const fa = document.getElementById('featuredArticle');
+  const faFull = document.getElementById('featuredArticleFull');
+  if (fa && faFull && fa.innerHTML.trim()) faFull.innerHTML = fa.innerHTML;
+}
+
+/* ──────────────────────────────
+   HAMBURGER
+────────────────────────────── */
+document.addEventListener('click', e => {
+  const menu = document.getElementById('navMenu');
+  const ham = document.getElementById('hamburger');
+  if (menu.classList.contains('open') && !menu.contains(e.target) && !ham.contains(e.target)) closeMenu();
+});
+
+/* ──────────────────────────────
+   FAQ ACCORDION
+────────────────────────────── */
+function toggleFaq(q) {
+  const answer = q.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-answer.open').forEach(a => a.classList.remove('open'));
+  document.querySelectorAll('.faq-question.open').forEach(qq => qq.classList.remove('open'));
+  if (!isOpen) { answer.classList.add('open'); q.classList.add('open'); }
+}
+function filterFaqs(term) {
+  const t = term.toLowerCase();
+  document.querySelectorAll('.faq-item').forEach(item => {
+    const text = item.textContent.toLowerCase();
+    item.style.display = text.includes(t) ? 'block' : 'none';
+  });
+  document.querySelectorAll('.faq-category').forEach(cat => {
+    const visible = [...cat.querySelectorAll('.faq-item')].some(i => i.style.display !== 'none');
+    cat.style.display = visible ? 'block' : 'none';
+  });
+}
+
+/* ──────────────────────────────
+   CHATBOT
+────────────────────────────── */
+const chatResponses = {
+  hello:'Hello! How can I help you today?', hi:'Hi there! How can I assist you?',
+  donate:'You can donate via Flutterwave or Paystack on our Donate page. We also accept bank transfers.',
+  volunteer:'Visit our Get Involved page to apply as a volunteer!',
+  programs:'We offer Scholarship Support, School Supplies, Community Learning Centers, and Mentorship programs.',
+  contact:'Call us at +2348031114594 (Nigeria) or +1 (208) 992-6233 (USA). Or email michael@liftandservefoundation.com.',
+  about:'Lift and Serve All Foundation is a non-profit transforming children\'s lives through education in underserved communities.',
+  scholarship:'We provide full and partial scholarships covering tuition, supplies, and transportation.',
+  help:'I can help with donations, volunteering, programs, and contact details. What do you need?',
+  thanks:'You\'re welcome! Is there anything else I can help with?'
+};
+function getBotReply(msg) {
+  const m = msg.toLowerCase();
+  for (const [k,v] of Object.entries(chatResponses)) { if (m.includes(k)) return v; }
+  return 'Thank you for your message! For more info, please visit our pages or email michael@liftandservefoundation.com.';
+}
+function addChatMsg(text, isUser) {
+  const wrap = document.getElementById('chatbotMessages');
+  const div = document.createElement('div');
+  div.className = 'chatbot-message ' + (isUser ? 'user-message' : 'bot-message');
+  div.innerHTML = `<p>${text}</p>`;
+  wrap.appendChild(div);
+  wrap.scrollTop = wrap.scrollHeight;
+}
+function sendChatMsg() {
+  const inp = document.getElementById('chatbotInput');
+  const msg = inp.value.trim(); if (!msg) return;
+  addChatMsg(msg, true); inp.value = '';
+  setTimeout(() => addChatMsg(getBotReply(msg), false), 450);
+}
+document.getElementById('chatbotToggle').addEventListener('click', () => document.getElementById('chatbotWindow').classList.toggle('active'));
+document.getElementById('chatbotClose').addEventListener('click',  () => document.getElementById('chatbotWindow').classList.remove('active'));
+document.getElementById('chatbotSend').addEventListener('click', sendChatMsg);
+document.getElementById('chatbotInput').addEventListener('keypress', e => { if(e.key==='Enter') sendChatMsg(); });
+
+/* ──────────────────────────────
+   PAYMENT — page donate section
+────────────────────────────── */
+let donateAmount = 0;
+function selectAmount(n, btn) {
+  donateAmount = n;
+  document.getElementById('donateCustomAmount').value = '';
+  document.querySelectorAll('.donation-form-wrap .amount-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+}
+function getDonateData() {
+  const amt = donateAmount || parseFloat(document.getElementById('donateCustomAmount')?.value) || 0;
+  const first = document.getElementById('donorFirst')?.value?.trim();
+  const last  = document.getElementById('donorLast')?.value?.trim();
+  const email = document.getElementById('donorEmail')?.value?.trim();
+  const phone = document.getElementById('donorPhone')?.value?.trim();
+  if (!first||!email) { alert('Please fill in your name and email.'); return null; }
+  if (amt < 1) { alert('Please select or enter a donation amount.'); return null; }
+  return { name: first+' '+last, email, phone, amount: amt };
+}
+function triggerDonateFlutterwave() { const d=getDonateData(); if(!d) return; runFlutterwave(d); }
+function triggerDonatePaystack()   { const d=getDonateData(); if(!d) return; runPaystack(d); }
+
+/* ──────────────────────────────
+   PAYMENT — modal
+────────────────────────────── */
+let modalDonateAmt = 0;
+function openDonateModal() { document.getElementById('donateModalOverlay').classList.add('active'); }
+function closeDonateModal(){ document.getElementById('donateModalOverlay').classList.remove('active'); }
+document.getElementById('donateModalOverlay').addEventListener('click', e => { if(e.target===e.currentTarget) closeDonateModal(); });
+function setModalAmount(n, btn) {
+  modalDonateAmt = n;
+  document.getElementById('modalCustomAmt').value = '';
+  document.querySelectorAll('#donateModalOverlay .amount-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  updateModalDisplay();
+}
+function updateModalDisplay() { document.getElementById('modalAmtDisplay').textContent = '$'+(modalDonateAmt||0); }
+function getModalData() {
+  const name  = document.getElementById('modalName').value.trim();
+  const email = document.getElementById('modalEmail').value.trim();
+  const phone = document.getElementById('modalPhone').value.trim();
+  const amt   = modalDonateAmt || parseFloat(document.getElementById('modalCustomAmt').value) || 0;
+  if (!name||!email) { alert('Please enter your name and email.'); return null; }
+  if (amt < 1) { alert('Please select or enter a donation amount.'); return null; }
+  return { name, email, phone, amount: amt };
+}
+function modalPayFlutterwave() { const d=getModalData(); if(!d) return; closeDonateModal(); runFlutterwave(d); }
+function modalPayPaystack()   { const d=getModalData(); if(!d) return; closeDonateModal(); runPaystack(d); }
+
+/* ──────────────────────────────
+   FLUTTERWAVE & PAYSTACK
+   ⚠ Replace the public keys below with your real keys
+   Flutterwave: https://dashboard.flutterwave.com → Settings → API Keys
+   Paystack:    https://dashboard.paystack.com/#/settings/developer
+────────────────────────────── */
+function runFlutterwave(d) {
+  FlutterwaveCheckout({
+    public_key: "YOUR_FLUTTERWAVE_PUBLIC_KEY",   // ← REPLACE
+    tx_ref:     "LISAF-FLW-" + Date.now(),
+    amount:     d.amount,
+    currency:   "USD",
+    payment_options: "card,mobilemoneyghana,ussd,banktransfer",
+    customer: { email: d.email, phone_number: d.phone, name: d.name },
+    customizations: { title:"Lift and Serve All Foundation", description:"Donation to support children's education", logo:"logo.png" },
+    callback: function(res) {
+      if (res.status === "successful") {
+        alert("🎉 Thank you, "+d.name+"! Donation of $"+d.amount+" received.\nTransaction ID: "+res.transaction_id);
+      }
+    },
+    onclose: function(){}
+  });
+}
+function runPaystack(d) {
+  const handler = PaystackPop.setup({
+    key:      "YOUR_PAYSTACK_PUBLIC_KEY",         // ← REPLACE
+    email:    d.email,
+    amount:   Math.round(d.amount * 100),
+    currency: "USD",
+    ref:      "LISAF-PSK-" + Date.now(),
+    metadata: { custom_fields:[{ display_name:"Donor Name", variable_name:"donor_name", value:d.name }] },
+    callback: function(res) {
+      alert("🎉 Thank you, "+d.name+"! Donation of $"+d.amount+" received.\nRef: "+res.reference);
+    },
+    onClose: function(){}
+  });
+  handler.openIframe();
+}
+
+/* ──────────────────────────────
+   DONATE PAGE AMOUNT BUTTONS
+────────────────────────────── */
+// Newsletter form on news page feeds the same Firebase function
+document.getElementById('newsletterEmailNews')?.addEventListener('change', () => {});
+</script>
+
+<!-- Payment SDKs -->
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<!-- Service Worker Registration (PWA) -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+</body>
+</html>

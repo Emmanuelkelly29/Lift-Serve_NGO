@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LISAF Admin Panel</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#001F54">
+<link rel="shortcut icon" href="favicon.png" type="image/png">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<!-- Firebase -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc,
+         collection, getDocs, query, orderBy, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// ══════════════════════════════════════════════════════
+//  REPLACE WITH YOUR FIREBASE CONFIG (same as index.html)
+// ══════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey:            "AIzaSyBq1WdhNxNgCiLIXumDMWT3RycOL7GxqYQ",
+  authDomain:        "liftandserveallfoundatio-6d136.firebaseapp.com",
+  projectId:         "liftandserveallfoundatio-6d136",
+  storageBucket:     "liftandserveallfoundatio-6d136.firebasestorage.app",
+  messagingSenderId: "132864715952",
+  appId:             "1:132864715952:web:90d362cb57cd59f01a5f75"
+};
+const app = initializeApp(firebaseConfig);
+const db  = getFirestore(app);
+window._db=db; window._doc=doc; window._getDoc=getDoc; window._setDoc=setDoc;
+window._addDoc=addDoc; window._updateDoc=updateDoc; window._deleteDoc=deleteDoc;
+window._collection=collection; window._getDocs=getDocs; window._query=query;
+window._orderBy=orderBy; window._serverTimestamp=serverTimestamp;
+window.dispatchEvent(new Event('firebaseReady'));
+</script>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--navy:#001F54;--gold:#FFD700;--gold-d:#E6C200;--bg:#f0f2f7;--white:#fff;
+  --muted:#6b7280;--success:#16a34a;--danger:#dc2626;--r:10px;}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:#1a1a2e;min-height:100vh;}
+
+/* ── LOGIN ── */
+#loginScreen{display:flex;align-items:center;justify-content:center;
+  min-height:100vh;background:linear-gradient(135deg,var(--navy) 0%,#1a3a5c 100%);}
+.login-box{background:#fff;border-radius:18px;padding:2.8rem 2.2rem;
+  width:100%;max-width:380px;box-shadow:0 24px 64px rgba(0,0,0,.35);text-align:center;}
+.login-logo{height:72px;width:72px;border-radius:12px;border:3px solid var(--gold);
+  object-fit:contain;margin-bottom:1.2rem;background:#fff;}
+.login-box h2{color:var(--navy);font-size:1.5rem;margin-bottom:.3rem;}
+.login-box p{color:var(--muted);font-size:.85rem;margin-bottom:1.8rem;}
+.login-inp{width:100%;padding:12px 16px;border:2px solid #e5e7eb;border-radius:8px;
+  font-size:1rem;font-family:inherit;transition:.2s;margin-bottom:1rem;}
+.login-inp:focus{outline:none;border-color:var(--navy);}
+.login-btn{width:100%;padding:13px;background:var(--navy);color:var(--gold);
+  border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:.2s;}
+.login-btn:hover{background:#002a70;}
+.login-err{color:var(--danger);font-size:.83rem;margin-top:.5rem;display:none;}
+
+/* ── ADMIN PANEL ── */
+#adminPanel{display:none;min-height:100vh;}
+.admin-header{background:var(--navy);color:#fff;padding:0 1.5rem;
+  display:flex;align-items:center;justify-content:space-between;
+  height:62px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.3);}
+.brand{display:flex;align-items:center;gap:.7rem;font-weight:700;font-size:1rem;}
+.brand img{height:38px;width:38px;border-radius:6px;border:2px solid var(--gold);object-fit:contain;}
+.header-right{display:flex;align-items:center;gap:.8rem;}
+.view-site-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;background:linear-gradient(135deg,var(--gold) 0%,#e6c200 100%);
+  color:var(--navy);padding:10px 20px;border-radius:8px;font-weight:700;font-size:.9rem;
+  text-decoration:none;border:none;cursor:pointer;font-family:inherit;transition:all .3s ease;
+  box-shadow:0 4px 12px rgba(255,215,0,.3);letter-spacing:.5px;}
+.view-site-btn:hover{background:linear-gradient(135deg,#e6c200 0%,var(--navy) 100%);color:var(--gold);
+  transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,215,0,.5);}
+.view-site-btn:active{transform:translateY(0);}
+.view-site-btn i{font-size:1.1rem;transition:.3s;}
+.view-site-btn:hover i{transform:scale(1.2) rotate(10deg);}
+.logout-btn{background:transparent;border:1.5px solid rgba(255,215,0,.4);
+  color:var(--gold);padding:7px 14px;border-radius:6px;cursor:pointer;
+  font-size:.83rem;font-family:inherit;transition:.2s;}
+.logout-btn:hover{background:var(--gold);color:var(--navy);}
+
+.admin-body{display:flex;min-height:calc(100vh - 62px);}
+
+/* ── SIDEBAR ── */
+.sidebar{width:210px;background:#fff;flex-shrink:0;
+  box-shadow:2px 0 8px rgba(0,0,0,.05);padding:.8rem 0;
+  position:sticky;top:62px;height:calc(100vh - 62px);overflow-y:auto;}
+.sidebar-item{display:flex;align-items:center;gap:.65rem;
+  padding:.75rem 1.2rem;cursor:pointer;font-size:.88rem;font-weight:500;
+  color:var(--muted);border-left:3px solid transparent;transition:.18s;}
+.sidebar-item:hover{background:#f5f6ff;color:var(--navy);}
+.sidebar-item.active{color:var(--navy);font-weight:700;border-left-color:var(--gold);background:#fffbe6;}
+.sidebar-item i{width:18px;text-align:center;}
+.sidebar-divider{border:none;border-top:1px solid #e9ecef;margin:.5rem 1rem;}
+
+/* ── MAIN ── */
+.admin-main{flex:1;padding:1.8rem;max-width:960px;}
+.panel{display:none;} .panel.active{display:block;}
+.panel-title{font-size:1.35rem;color:var(--navy);margin-bottom:1.5rem;
+  padding-bottom:.6rem;border-bottom:2px solid var(--gold);}
+
+/* ── CARDS ── */
+.card{background:#fff;border-radius:var(--r);padding:1.5rem;margin-bottom:1.5rem;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.card h3{color:var(--navy);margin-bottom:1rem;font-size:.98rem;}
+
+/* ── FORM ELEMENTS ── */
+label{display:block;font-size:.8rem;font-weight:600;color:var(--muted);margin-bottom:.3rem;}
+input[type=text],input[type=url],input[type=email],input[type=number],
+input[type=date],textarea,select{
+  width:100%;padding:9px 12px;border:1.5px solid #d1d5db;border-radius:7px;
+  font-size:.9rem;font-family:inherit;transition:.2s;margin-bottom:.9rem;background:#fff;}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--navy);}
+textarea{min-height:80px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+@media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;gap:.45rem;padding:9px 18px;
+  border:none;border-radius:7px;cursor:pointer;font-size:.85rem;
+  font-weight:700;font-family:inherit;transition:.2s;}
+.btn-primary{background:var(--navy);color:var(--gold);}
+.btn-primary:hover{background:#002a70;}
+.btn-success{background:var(--success);color:#fff;}
+.btn-success:hover{background:#15803d;}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-danger:hover{background:#b91c1c;}
+.btn-outline{background:transparent;border:1.5px solid var(--navy);color:var(--navy);}
+.btn-outline:hover{background:var(--navy);color:var(--gold);}
+.btn-sm{padding:5px 11px;font-size:.78rem;}
+.btn-gold{background:var(--gold);color:var(--navy);}
+.btn-gold:hover{background:var(--gold-d);}
+
+/* ── IMAGE UPLOADER ── */
+.upload-zone{border:2px dashed #d1d5db;border-radius:10px;padding:1.4rem;
+  text-align:center;cursor:pointer;transition:.2s;background:#fafafa;
+  position:relative;margin-bottom:.7rem;}
+.upload-zone:hover{border-color:var(--navy);background:#f0f4ff;}
+.upload-zone input[type=file]{position:absolute;inset:0;opacity:0;
+  cursor:pointer;width:100%;height:100%;border:none;margin:0;padding:0;}
+.upload-zone .upload-icon{font-size:2rem;color:#d1d5db;margin-bottom:.4rem;}
+.upload-zone p{font-size:.82rem;color:var(--muted);margin:0;}
+.preview-img{width:100%;max-height:160px;object-fit:cover;border-radius:7px;
+  margin-top:.6rem;display:none;}
+.img-url-txt{font-size:.72rem;color:var(--muted);word-break:break-all;
+  margin-top:.3rem;display:none;}
+.prog-bar-wrap{height:4px;background:#e5e7eb;border-radius:2px;
+  margin-top:.4rem;display:none;}
+.prog-bar{height:100%;background:var(--navy);border-radius:2px;width:0;transition:width .25s;}
+.upload-status{font-size:.78rem;font-weight:600;margin-top:.3rem;min-height:1rem;}
+.upload-status.ok{color:var(--success);}
+.upload-status.err{color:var(--danger);}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;z-index:9999;
+  background:var(--navy);color:#fff;padding:12px 20px;border-radius:10px;
+  font-size:.85rem;font-weight:600;box-shadow:0 4px 20px rgba(0,0,0,.2);
+  transform:translateY(80px);opacity:0;transition:.3s;max-width:320px;}
+.toast.ok{background:var(--success);}
+.toast.err{background:var(--danger);}
+.toast.show{transform:translateY(0);opacity:1;}
+
+/* ── NEWS / PARTNERS LIST ── */
+.list-item{display:flex;gap:.9rem;align-items:flex-start;
+  padding:1rem;background:#f8f9fa;border-radius:8px;margin-bottom:.7rem;}
+.list-item img{width:70px;height:52px;object-fit:cover;border-radius:6px;flex-shrink:0;}
+.list-item-body{flex:1;}
+.list-item-body h4{font-size:.88rem;color:var(--navy);margin-bottom:.2rem;}
+.list-item-body span{font-size:.76rem;color:var(--muted);}
+.list-item-actions{display:flex;gap:.4rem;flex-shrink:0;}
+
+/* ── DASHBOARD STATS ── */
+.dash-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1rem;margin-bottom:1.5rem;}
+.dash-stat{background:#fff;border-radius:var(--r);padding:1.2rem;text-align:center;
+  box-shadow:0 2px 10px rgba(0,0,0,.06);}
+.dash-stat .num{font-size:2rem;font-weight:800;color:var(--navy);}
+.dash-stat .lbl{font-size:.75rem;color:var(--muted);margin-top:.2rem;}
+
+/* ── CHECKLIST ── */
+.checklist{list-style:none;padding:0;}
+.checklist li{padding:.5rem 0;border-bottom:1px solid #f3f4f6;font-size:.87rem;}
+.checklist li:last-child{border:none;}
+code{background:#f3f4f6;padding:.1rem .4rem;border-radius:4px;font-size:.82rem;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .sidebar{display:none;}
+  .admin-main{padding:1rem;}
+  .brand span{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════
+     LOGIN
+═══════════════════════ -->
+<div id="loginScreen">
+  <div class="login-box">
+    <img src="logo.png" alt="LISAF" class="login-logo" onerror="this.style.display='none'">
+    <h2>Admin Panel</h2>
+    <p>Lift and Serve All Foundation</p>
+    <!--
+      DEFAULT PASSWORD: LISAFadmin2025
+      To change it, find ADMIN_PASSWORD in the <script> below and update the value.
+    -->
+    <input class="login-inp" type="password" id="pwInput" placeholder="Enter admin password"
+           onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="login-btn" onclick="doLogin()"><i class="fas fa-lock"></i> Login</button>
+    <p class="login-err" id="loginErr">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════════
+     ADMIN PANEL
+═══════════════════════ -->
+<div id="adminPanel">
+
+  <header class="admin-header">
+    <div class="brand">
+      <img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+      <span>LISAF Admin</span>
+    </div>
+    <div class="header-right">
+      <!-- Prominent "View Public Website" button -->
+      <a href="index.html" class="view-site-btn" title="Click to view the public website">
+        <i class="fas fa-globe"></i> <span>View Public Site</span>
+      </a>
+      <button class="logout-btn" onclick="doLogout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </header>
+
+  <div class="admin-body">
+
+    <!-- SIDEBAR -->
+    <nav class="sidebar">
+      <div class="sidebar-item active" onclick="showPanel('dashboard')"><i class="fas fa-tachometer-alt"></i> Dashboard</div>
+      <div class="sidebar-item" onclick="showPanel('homepage')"><i class="fas fa-home"></i> Homepage</div>
+      <div class="sidebar-item" onclick="showPanel('gallery')"><i class="fas fa-images"></i> Gallery</div>
+      <div class="sidebar-item" onclick="showPanel('team')"><i class="fas fa-user-friends"></i> Team Photos</div>
+      <div class="sidebar-item" onclick="showPanel('news')"><i class="fas fa-newspaper"></i> News &amp; Blog</div>
+      <div class="sidebar-item" onclick="showPanel('partners')"><i class="fas fa-handshake"></i> Partners</div>
+      <div class="sidebar-item" onclick="showPanel('stats')"><i class="fas fa-chart-bar"></i> Stats</div>
+      <div class="sidebar-item" onclick="showPanel('settings')"><i class="fas fa-cog"></i> Settings</div>
+    </nav>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+
+      <!-- ── DASHBOARD ── -->
+      <div class="panel active" id="panel-dashboard">
+        <h2 class="panel-title"><i class="fas fa-tachometer-alt"></i> Dashboard</h2>
+        <div class="dash-stats">
+          <div class="dash-stat"><div class="num" id="db-news">—</div><div class="lbl">News Articles</div></div>
+          <div class="dash-stat"><div class="num" id="db-partners">—</div><div class="lbl">Partners</div></div>
+          <div class="dash-stat"><div class="num" id="db-subs">—</div><div class="lbl">Subscribers</div></div>
+          <div class="dash-stat"><div class="num" id="db-contacts">—</div><div class="lbl">Messages</div></div>
+        </div>
+        <div class="card">
+          <h3>Quick Actions</h3>
+          <div style="display:flex;flex-wrap:wrap;gap:.7rem;">
+            <button class="btn btn-primary" onclick="showPanel('news')"><i class="fas fa-plus"></i> Add News</button>
+            <button class="btn btn-outline" onclick="showPanel('homepage')"><i class="fas fa-image"></i> Update Images</button>
+            <button class="btn btn-outline" onclick="showPanel('gallery')"><i class="fas fa-images"></i> Update Gallery</button>
+            <button class="btn btn-outline" onclick="showPanel('partners')"><i class="fas fa-plus"></i> Add Partner</button>
+            <button class="btn btn-outline" onclick="showPanel('stats')"><i class="fas fa-edit"></i> Edit Stats</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3><i class="fas fa-tools" style="color:var(--navy)"></i> Setup Checklist</h3>
+          <ul class="checklist">
+            <li>☐ Replace Firebase config in both <code>index.html</code> and <code>admin.html</code></li>
+            <li>☐ Set Cloudinary credentials in <strong>Settings</strong> tab below</li>
+            <li>☐ Replace <code>YOUR_FLUTTERWAVE_PUBLIC_KEY</code> in <code>index.html</code></li>
+            <li>☐ Replace <code>YOUR_PAYSTACK_PUBLIC_KEY</code> in <code>index.html</code></li>
+            <li>☐ Change admin password (find <code>ADMIN_PASSWORD</code> in admin.html script)</li>
+            <li>☐ Enable Firestore in Firebase console (start in test mode)</li>
+            <li>☐ Create an <em>unsigned upload preset</em> in Cloudinary → Settings → Upload</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ── HOMEPAGE IMAGES & TEXT ── -->
+      <div class="panel" id="panel-homepage">
+        <h2 class="panel-title"><i class="fas fa-home"></i> Homepage Content</h2>
+
+        <div class="card">
+          <h3>Logo (shown across entire website)</h3>
+          <div class="upload-zone">
+            <input type="file" accept="image/*" onchange="uploadImg(this,'logo','hp_logoUrl')">
+            <div class="upload-icon"><i class="fas fa-image"></i></div>
+            <p>Tap to upload logo from gallery</p>
+            <div class="prog-bar-wrap" id="prog-logo"><div class="prog-bar" id="pb-logo"></div></div>
+            <img class="preview-img" id="prev-logo" alt="">
+            <p class="img-url-txt" id="urltxt-logo"></p>
+            <p class="upload-status" id="status-logo"></p>
+          </div>
+          <input type="hidden" id="hp_logoUrl">
+        </div>
+
+        <div class="card">
+          <h3>Hero Section</h3>
+          <label>Hero Title</label>
+          <input type="text" id="hp_heroTitle" placeholder="Transforming Lives Through Education">
+          <label>Hero Subtitle / Tagline</label>
+          <textarea id="hp_heroSubtitle" rows="3" placeholder="Describe the foundation's mission…"></textarea>
+          <label>Hero Image (right side of hero)</label>
+          <div class="upload-zone">
+            <input type="file" accept="image/*" onchange="uploadImg(this,'heroImg','hp_heroImgUrl')">
+            <div class="upload-icon"><i class="fas fa-child"></i></div>
+            <p>Tap to upload hero image from gallery</p>
+            <div class="prog-bar-wrap" id="prog-heroImg"><div class="prog-bar" id="pb-heroImg"></div></div>
+            <img class="preview-img" id="prev-heroImg" alt="">
+            <p class="img-url-txt" id="urltxt-heroImg"></p>
+            <p class="upload-status" id="status-heroImg"></p>
+          </div>
+          <input type="hidden" id="hp_heroImgUrl">
+        </div>
+
+        <div class="card">
+          <h3>About Preview Section</h3>
+          <label>About Paragraph 1</label>
+          <textarea id="hp_aboutText1" rows="3"></textarea>
+          <label>About Paragraph 2</label>
+          <textarea id="hp_aboutText2" rows="3"></textarea>
+          <label>Team Photo (about section)</label>
+          <div class="upload-zone">
+            <input type="file" accept="image/*" onchange="uploadImg(this,'teamImg','hp_teamImgUrl')">
+            <div class="upload-icon"><i class="fas fa-users"></i></div>
+            <p>Tap to upload team photo from gallery</p>
+            <div class="prog-bar-wrap" id="prog-teamImg"><div class="prog-bar" id="pb-teamImg"></div></div>
+            <img class="preview-img" id="prev-teamImg" alt="">
+            <p class="img-url-txt" id="urltxt-teamImg"></p>
+            <p class="upload-status" id="status-teamImg"></p>
+          </div>
+          <input type="hidden" id="hp_teamImgUrl">
+        </div>
+
+        <div class="card">
+          <h3>Our Story Image (About page)</h3>
+          <div class="upload-zone">
+            <input type="file" accept="image/*" onchange="uploadImg(this,'storyImg','hp_storyImgUrl')">
+            <div class="upload-icon"><i class="fas fa-heart"></i></div>
+            <p>Tap to upload "Our Story" image</p>
+            <div class="prog-bar-wrap" id="prog-storyImg"><div class="prog-bar" id="pb-storyImg"></div></div>
+            <img class="preview-img" id="prev-storyImg" alt="">
+            <p class="img-url-txt" id="urltxt-storyImg"></p>
+            <p class="upload-status" id="status-storyImg"></p>
+          </div>
+          <input type="hidden" id="hp_storyImgUrl">
+        </div>
+
+        <button class="btn btn-success" onclick="saveHomepage()"><i class="fas fa-save"></i> Save All Homepage Content</button>
+      </div>
+
+      <!-- ── GALLERY ── -->
+      <div class="panel" id="panel-gallery">
+        <h2 class="panel-title"><i class="fas fa-images"></i> Programs Gallery</h2>
+        <p style="font-size:.87rem;color:var(--muted);margin-bottom:1.5rem;">These 6 images appear in the Programs &amp; Impact gallery section.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;" id="galleryCards">
+          <!-- Generated by JS -->
+        </div>
+        <button class="btn btn-success" style="margin-top:1rem;" onclick="saveGallery()"><i class="fas fa-save"></i> Save Gallery</button>
+      </div>
+
+      <!-- ── TEAM PHOTOS ── -->
+      <div class="panel" id="panel-team">
+        <h2 class="panel-title"><i class="fas fa-user-friends"></i> Team Member Photos</h2>
+        <p style="font-size:.87rem;color:var(--muted);margin-bottom:1.5rem;">Upload photos for each team member shown on the About page.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;" id="teamPhotoCards">
+          <!-- Generated by JS -->
+        </div>
+        <button class="btn btn-success" style="margin-top:1rem;" onclick="saveTeamPhotos()"><i class="fas fa-save"></i> Save Team Photos</button>
+      </div>
+
+      <!-- ── NEWS & BLOG ── -->
+      <div class="panel" id="panel-news">
+        <h2 class="panel-title"><i class="fas fa-newspaper"></i> News &amp; Blog</h2>
+
+        <div class="card">
+          <h3 id="newsFormTitle">Add New Article</h3>
+          <input type="hidden" id="editNewsId">
+          <div class="form-row">
+            <div><label>Title *</label><input type="text" id="n_title" placeholder="Article title"></div>
+            <div><label>Category</label>
+              <select id="n_category">
+                <option>News</option><option>Success Story</option><option>Volunteer Story</option>
+                <option>Impact Report</option><option>Community Story</option>
+                <option>Donor Spotlight</option><option>Technology</option><option>Global News</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div><label>Date</label><input type="date" id="n_date"></div>
+            <div></div>
+          </div>
+          <label>Excerpt (short summary shown in listing)</label>
+          <textarea id="n_excerpt" rows="2" placeholder="Brief summary…"></textarea>
+          <label>Full Article Body</label>
+          <textarea id="n_body" rows="5" placeholder="Full article content…"></textarea>
+          <label>Article Image</label>
+          <div class="upload-zone">
+            <input type="file" accept="image/*" onchange="uploadImg(this,'newsImg','n_imgUrl')">
+            <div class="upload-icon"><i class="fas fa-image"></i></div>
+            <p>Tap to upload article image from gallery</p>
+            <div class="prog-bar-wrap" id="prog-newsImg"><div class="prog-bar" id="pb-newsImg"></div></div>
+            <img class="preview-img" id="prev-newsImg" alt="">
+            <p class="img-url-txt" id="urltxt-newsImg"></p>
+            <p class="upload-status" id="status-newsImg"></p>
+          </div>
+          <input type="hidden" id="n_imgUrl">
+          <div style="display:flex;gap:.7rem;margin-top:.5rem;">
+            <button class="btn btn-success" onclick="saveArticle()"><i class="fas fa-save"></i> Save Article</button>
+            <button class="btn btn-outline" onclick="clearNewsForm()"><i class="fas fa-times"></i> Clear</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Published Articles</h3>
+          <div id="newsList"><p style="color:var(--muted);font-size:.85rem;">Loading…</p></div>
+        </div>
+      </div>
+
+      <!-- ── PARTNERS ── -->
+      <div class="panel" id="panel-partners">
+        <h2 class="panel-title"><i class="fas fa-handshake"></i> Partners</h2>
+
+        <div class="card">
+          <h3 id="partnerFormTitle">Add Partner</h3>
+          <input type="hidden" id="editPartnerId">
+          <div class="form-row">
+            <div><label>Organisation Name *</label><input type="text" id="p_name" placeholder="Partner name"></div>
+            <div><label>Website URL</label><input type="url" id="p_website" placeholder="https://…"></div>
+          </div>
+          <label>Partner Logo</label>
+          <div class="upload-zone">
+            <input type="file" accept="image/*" onchange="uploadImg(this,'partnerLogo','p_logoUrl')">
+            <div class="upload-icon"><i class="fas fa-building"></i></div>
+            <p>Tap to upload partner logo from gallery</p>
+            <div class="prog-bar-wrap" id="prog-partnerLogo"><div class="prog-bar" id="pb-partnerLogo"></div></div>
+            <img class="preview-img" id="prev-partnerLogo" alt="">
+            <p class="img-url-txt" id="urltxt-partnerLogo"></p>
+            <p class="upload-status" id="status-partnerLogo"></p>
+          </div>
+          <input type="hidden" id="p_logoUrl">
+          <div style="display:flex;gap:.7rem;margin-top:.5rem;">
+            <button class="btn btn-success" onclick="savePartner()"><i class="fas fa-save"></i> Save Partner</button>
+            <button class="btn btn-outline" onclick="clearPartnerForm()"><i class="fas fa-times"></i> Clear</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Current Partners</h3>
+          <div id="partnersList"><p style="color:var(--muted);font-size:.85rem;">Loading…</p></div>
+        </div>
+      </div>
+
+      <!-- ── STATS ── -->
+      <div class="panel" id="panel-stats">
+        <h2 class="panel-title"><i class="fas fa-chart-bar"></i> Impact Statistics</h2>
+        <div class="card">
+          <h3>Numbers shown on homepage and about page</h3>
+          <div class="form-row">
+            <div><label>Children Supported</label><input type="text" id="s_children" placeholder="e.g. 1000+"></div>
+            <div><label>Communities Reached</label><input type="text" id="s_communities" placeholder="e.g. 25+"></div>
+          </div>
+          <div class="form-row">
+            <div><label>Global Partners</label><input type="text" id="s_partners" placeholder="e.g. 100+"></div>
+            <div><label>Schools Partnered</label><input type="text" id="s_schools" placeholder="e.g. 15"></div>
+          </div>
+          <div class="form-row">
+            <div><label>Books Distributed</label><input type="text" id="s_books" placeholder="e.g. 1,000+"></div>
+            <div><label>Youth Mentored</label><input type="text" id="s_mentored" placeholder="e.g. 150+"></div>
+          </div>
+          <button class="btn btn-success" onclick="saveStats()"><i class="fas fa-save"></i> Save Stats</button>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ── -->
+      <div class="panel" id="panel-settings">
+        <h2 class="panel-title"><i class="fas fa-cog"></i> Settings</h2>
+
+        <div class="card">
+          <h3>Cloudinary Configuration</h3>
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">
+            Stored in your browser (localStorage). Get from
+            <strong>cloudinary.com/console</strong>.
+          </p>
+          <label>Cloud Name</label>
+          <input type="text" id="cfg_cloud" placeholder="e.g. my-cloud">
+          <label>Unsigned Upload Preset</label>
+          <input type="text" id="cfg_preset" placeholder="e.g. lisaf_uploads">
+          <p style="font-size:.79rem;color:var(--muted);margin-bottom:1rem;">
+            Create an <em>unsigned upload preset</em> in Cloudinary → Settings → Upload → Add preset → set Signing Mode to <strong>Unsigned</strong>.
+          </p>
+          <button class="btn btn-success" onclick="saveCloudinary()"><i class="fas fa-save"></i> Save Cloudinary Config</button>
+        </div>
+
+        <div class="card">
+          <h3>Admin Password</h3>
+          <p style="font-size:.82rem;color:var(--muted);margin-bottom:1rem;">
+            To change the password, open <code>admin.html</code> in a text editor,
+            find <code>const ADMIN_PASSWORD</code> and update the value, then re-upload the file.
+          </p>
+          <label>New Password</label><input type="password" id="newPw1" placeholder="New password">
+          <label>Confirm</label><input type="password" id="newPw2" placeholder="Confirm password">
+          <button class="btn btn-primary" onclick="showPwHint()"><i class="fas fa-key"></i> Show Change Instructions</button>
+          <div id="pwHint" style="display:none;background:#fffbe6;padding:1rem;border-radius:8px;margin-top:1rem;font-size:.83rem;">
+            <strong>Steps:</strong><br>
+            1. Open <code>admin.html</code> in a text editor<br>
+            2. Find: <code>const ADMIN_PASSWORD = "LISAFadmin2025";</code><br>
+            3. Replace <code>LISAFadmin2025</code> with: <strong id="pwHintVal" style="color:var(--navy)"></strong><br>
+            4. Save and re-upload admin.html
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ══════════════════════════════════════════════════
+   ADMIN PASSWORD  ← change "LISAFadmin2025" here
+══════════════════════════════════════════════════ */
+const ADMIN_PASSWORD = "LISAFadmin2025";
+
+/* ── AUTH ── */
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASSWORD) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminPanel').style.display  = 'block';
+    initAdmin();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+  }
+}
+function doLogout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('adminPanel').style.display  = 'none';
+  document.getElementById('pwInput').value = '';
+}
+document.getElementById('pwInput').addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+
+/* ── PANEL NAV ── */
+function showPanel(name) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s => s.classList.remove('active'));
+  document.getElementById('panel-'+name)?.classList.add('active');
+  document.querySelectorAll('.sidebar-item').forEach(s => {
+    if (s.textContent.toLowerCase().includes(name === 'homepage' ? 'home' : name.substring(0,5))) s.classList.add('active');
+  });
+  if (name==='news')     loadNewsList();
+  if (name==='partners') loadPartnersList();
+  if (name==='homepage') loadHomepageData();
+  if (name==='stats')    loadStatsData();
+  if (name==='gallery')  buildGalleryCards();
+  if (name==='team')     buildTeamCards();
+  if (name==='dashboard')loadDashCounts();
+}
+
+/* ── TOAST ── */
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent=msg; t.className='toast '+type+' show';
+  setTimeout(()=>t.className='toast',3000);
+}
+
+/* ── CLOUDINARY CONFIG ── */
+function saveCloudinary() {
+  localStorage.setItem('lisaf_cloud',  document.getElementById('cfg_cloud').value.trim());
+  localStorage.setItem('lisaf_preset', document.getElementById('cfg_preset').value.trim());
+  toast('Cloudinary config saved ✓','ok');
+}
+function loadCloudinary() {
+  // Real Cloudinary credentials — pre-filled
+  const cloud  = localStorage.getItem('lisaf_cloud')  || 'dedskziix';
+  const preset = localStorage.getItem('lisaf_preset') || 'lisaf2025';
+  localStorage.setItem('lisaf_cloud',  cloud);
+  localStorage.setItem('lisaf_preset', preset);
+  document.getElementById('cfg_cloud').value  = cloud;
+  document.getElementById('cfg_preset').value = preset;
+}
+
+/* ── CLOUDINARY UPLOAD ── */
+async function uploadImg(input, key, hiddenId) {
+  const file = input.files[0]; if (!file) return;
+  const cloud  = localStorage.getItem('lisaf_cloud')  || '';
+  const preset = localStorage.getItem('lisaf_preset') || '';
+  if (!cloud || !preset) {
+    toast('⚠ Set Cloudinary config in Settings first!','err');
+    showPanel('settings'); return;
+  }
+
+  // Instant local preview
+  const prev = document.getElementById('prev-'+key);
+  if (prev) { const r=new FileReader(); r.onload=e=>{prev.src=e.target.result;prev.style.display='block';}; r.readAsDataURL(file); }
+
+  const prog = document.getElementById('prog-'+key);
+  const pb   = document.getElementById('pb-'+key);
+  const stat = document.getElementById('status-'+key);
+  if (prog) prog.style.display='block';
+  if (stat) stat.textContent='Uploading…';
+
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', preset);
+  fd.append('folder', 'lisaf_foundation');
+
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', `https://api.cloudinary.com/v1_1/${cloud}/image/upload`);
+    xhr.upload.onprogress = e => { if(pb) pb.style.width=Math.round(e.loaded/e.total*100)+'%'; };
+    const res = await new Promise((ok,fail) => { xhr.onload=()=>ok(JSON.parse(xhr.responseText)); xhr.onerror=fail; xhr.send(fd); });
+
+    const url = res.secure_url;
+    if (prog) prog.style.display='none';
+    if (prev) prev.src = url;
+    const utxt = document.getElementById('urltxt-'+key);
+    if (utxt) { utxt.textContent=url; utxt.style.display='block'; }
+    document.getElementById(hiddenId).value = url;
+    if (stat) { stat.textContent='✓ Uploaded successfully!'; stat.className='upload-status ok'; }
+    toast('Image uploaded ✓','ok');
+  } catch(e) {
+    if (prog) prog.style.display='none';
+    if (stat) { stat.textContent='✗ Upload failed. Check Cloudinary config.'; stat.className='upload-status err'; }
+    toast('Upload failed — check Cloudinary config','err');
+  }
+}
+
+/* helper: show existing image in upload zone */
+function showExisting(key, hiddenId, url) {
+  const prev = document.getElementById('prev-'+key);
+  if (prev) { prev.src=url; prev.style.display='block'; }
+  const utxt = document.getElementById('urltxt-'+key);
+  if (utxt) { utxt.textContent=url; utxt.style.display='block'; }
+  const inp = document.getElementById(hiddenId);
+  if (inp) inp.value=url;
+}
+
+/* ── GALLERY CARDS (dynamic build) ── */
+const galleryLabels = ['Scholarship Ceremony','Book Distribution','Learning Center','Community Workshop','Digital Learning','Volunteer Activities'];
+function buildGalleryCards() {
+  const wrap = document.getElementById('galleryCards'); if (!wrap) return;
+  if (wrap.children.length > 0) return; // already built
+  wrap.innerHTML = '';
+  for (let i=1;i<=6;i++) {
+    wrap.innerHTML += `
+      <div class="card" style="margin:0;">
+        <h3>Gallery Image ${i}<br><small style="font-weight:400;color:var(--muted)">${galleryLabels[i-1]}</small></h3>
+        <div class="upload-zone">
+          <input type="file" accept="image/*" onchange="uploadImg(this,'gal${i}','hp_gal${i}Url')">
+          <div class="upload-icon"><i class="fas fa-camera"></i></div>
+          <p>Tap to upload from gallery</p>
+          <div class="prog-bar-wrap" id="prog-gal${i}"><div class="prog-bar" id="pb-gal${i}"></div></div>
+          <img class="preview-img" id="prev-gal${i}" alt="">
+          <p class="img-url-txt" id="urltxt-gal${i}"></p>
+          <p class="upload-status" id="status-gal${i}"></p>
+        </div>
+        <input type="hidden" id="hp_gal${i}Url">
+      </div>`;
+  }
+}
+async function saveGallery() {
+  if (!window._db) { toast('Firebase not ready','err'); return; }
+  const data = { updatedAt: window._serverTimestamp() };
+  for (let i=1;i<=6;i++) { const v=document.getElementById(`hp_gal${i}Url`)?.value; if(v) data['galleryImg'+i]=v; }
+  try { await window._setDoc(window._doc(window._db,'siteContent','homepage'),data,{merge:true}); toast('Gallery saved ✓','ok'); }
+  catch(e) { toast('Save failed','err'); }
+}
+
+/* ── TEAM PHOTO CARDS ── */
+const teamMembers = ['Michael Egunjobi (Director)','Emmanuel C. Kelly (Program Director)','Elizabeth Gbadebo (Outreach Coordinator)'];
+function buildTeamCards() {
+  const wrap = document.getElementById('teamPhotoCards'); if (!wrap) return;
+  if (wrap.children.length > 0) return;
+  wrap.innerHTML = '';
+  for (let i=1;i<=3;i++) {
+    wrap.innerHTML += `
+      <div class="card" style="margin:0;">
+        <h3>${teamMembers[i-1]}</h3>
+        <div class="upload-zone">
+          <input type="file" accept="image/*" onchange="uploadImg(this,'tm${i}','hp_tm${i}Url')">
+          <div class="upload-icon"><i class="fas fa-user-circle"></i></div>
+          <p>Tap to upload member photo</p>
+          <div class="prog-bar-wrap" id="prog-tm${i}"><div class="prog-bar" id="pb-tm${i}"></div></div>
+          <img class="preview-img" id="prev-tm${i}" alt="" style="border-radius:50%;max-height:120px;width:120px;object-fit:cover;">
+          <p class="img-url-txt" id="urltxt-tm${i}"></p>
+          <p class="upload-status" id="status-tm${i}"></p>
+        </div>
+        <input type="hidden" id="hp_tm${i}Url">
+      </div>`;
+  }
+}
+async function saveTeamPhotos() {
+  if (!window._db) { toast('Firebase not ready','err'); return; }
+  const data = { updatedAt: window._serverTimestamp() };
+  for (let i=1;i<=3;i++) { const v=document.getElementById(`hp_tm${i}Url`)?.value; if(v) data['teamMemberImg'+i]=v; }
+  try { await window._setDoc(window._doc(window._db,'siteContent','homepage'),data,{merge:true}); toast('Team photos saved ✓','ok'); }
+  catch(e) { toast('Save failed','err'); }
+}
+
+/* ── HOMEPAGE SAVE / LOAD ── */
+async function saveHomepage() {
+  if (!window._db) { toast('Firebase not ready','err'); return; }
+  const data = {
+    heroTitle:    document.getElementById('hp_heroTitle').value.trim()||null,
+    heroSubtitle: document.getElementById('hp_heroSubtitle').value.trim()||null,
+    aboutText1:   document.getElementById('hp_aboutText1').value.trim()||null,
+    aboutText2:   document.getElementById('hp_aboutText2').value.trim()||null,
+    logoUrl:      document.getElementById('hp_logoUrl').value||null,
+    heroImageUrl: document.getElementById('hp_heroImgUrl').value||null,
+    teamImageUrl: document.getElementById('hp_teamImgUrl').value||null,
+    storyImageUrl:document.getElementById('hp_storyImgUrl').value||null,
+    updatedAt:    window._serverTimestamp()
+  };
+  Object.keys(data).forEach(k => { if(data[k]===null||data[k]==='') delete data[k]; });
+  try {
+    await window._setDoc(window._doc(window._db,'siteContent','homepage'),data,{merge:true});
+    toast('Homepage saved ✓','ok');
+  } catch(e) { toast('Save failed','err'); console.error(e); }
+}
+async function loadHomepageData() {
+  if (!window._db) return;
+  try {
+    const snap = await window._getDoc(window._doc(window._db,'siteContent','homepage'));
+    if (!snap.exists()) return;
+    const d = snap.data();
+    if(d.heroTitle)     document.getElementById('hp_heroTitle').value    = d.heroTitle;
+    if(d.heroSubtitle)  document.getElementById('hp_heroSubtitle').value = d.heroSubtitle;
+    if(d.aboutText1)    document.getElementById('hp_aboutText1').value   = d.aboutText1;
+    if(d.aboutText2)    document.getElementById('hp_aboutText2').value   = d.aboutText2;
+    if(d.logoUrl)       showExisting('logo',    'hp_logoUrl',     d.logoUrl);
+    if(d.heroImageUrl)  showExisting('heroImg', 'hp_heroImgUrl',  d.heroImageUrl);
+    if(d.teamImageUrl)  showExisting('teamImg', 'hp_teamImgUrl',  d.teamImageUrl);
+    if(d.storyImageUrl) showExisting('storyImg','hp_storyImgUrl', d.storyImageUrl);
+    // Gallery & team on re-build
+    for(let i=1;i<=6;i++) { if(d['galleryImg'+i]) { buildGalleryCards(); setTimeout(()=>showExisting('gal'+i,'hp_gal'+i+'Url',d['galleryImg'+i]),100); break; } }
+    for(let i=1;i<=3;i++) { if(d['teamMemberImg'+i]) { buildTeamCards(); setTimeout(()=>showExisting('tm'+i,'hp_tm'+i+'Url',d['teamMemberImg'+i]),100); break; } }
+  } catch(e) { console.error(e); }
+}
+
+/* ── STATS ── */
+async function loadStatsData() {
+  if (!window._db) return;
+  try {
+    const snap = await window._getDoc(window._doc(window._db,'siteContent','stats'));
+    if (!snap.exists()) return;
+    const d = snap.data();
+    ['children','communities','partners','schools','books','mentored'].forEach(k => {
+      if(d[k]) document.getElementById('s_'+k).value = d[k];
+    });
+  } catch(e) {}
+}
+async function saveStats() {
+  if (!window._db) return;
+  try {
+    const data = {};
+    ['children','communities','partners','schools','books','mentored'].forEach(k => {
+      const v = document.getElementById('s_'+k).value.trim();
+      if(v) data[k]=v;
+    });
+    data.updatedAt = window._serverTimestamp();
+    await window._setDoc(window._doc(window._db,'siteContent','stats'),data,{merge:true});
+    toast('Stats saved ✓','ok');
+  } catch(e) { toast('Save failed','err'); }
+}
+
+/* ── NEWS ── */
+async function loadNewsList() {
+  const list = document.getElementById('newsList');
+  if (!window._db) { list.innerHTML='<p style="color:var(--muted)">Firebase not connected</p>'; return; }
+  list.innerHTML='<p style="color:var(--muted);font-size:.85rem;">Loading…</p>';
+  try {
+    const q = window._query(window._collection(window._db,'news'), window._orderBy('createdAt','desc'));
+    const snap = await window._getDocs(q);
+    if (snap.empty) { list.innerHTML='<p style="color:var(--muted);font-size:.85rem;">No articles yet.</p>'; return; }
+    list.innerHTML='';
+    snap.forEach(d => {
+      const a = d.data();
+      list.innerHTML += `
+        <div class="list-item">
+          ${a.imageUrl?`<img src="${a.imageUrl}" alt="">`:`<div style="width:70px;height:52px;background:#e5e7eb;border-radius:6px;flex-shrink:0;"></div>`}
+          <div class="list-item-body"><h4>${a.title||'Untitled'}</h4><span>${a.category||''} &bull; ${a.date||''}</span><p style="font-size:.78rem;color:var(--muted);margin:.2rem 0 0;">${(a.excerpt||'').slice(0,90)}…</p></div>
+          <div class="list-item-actions">
+            <button class="btn btn-outline btn-sm" onclick="editArticle('${d.id}')"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm"  onclick="deleteArticle('${d.id}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>`;
+    });
+  } catch(e) { list.innerHTML='<p style="color:var(--danger)">Error loading articles</p>'; }
+}
+async function saveArticle() {
+  if (!window._db) return;
+  const title = document.getElementById('n_title').value.trim();
+  if (!title) { toast('Title is required','err'); return; }
+  const data = {
+    title, category: document.getElementById('n_category').value,
+    date:     document.getElementById('n_date').value,
+    excerpt:  document.getElementById('n_excerpt').value.trim(),
+    body:     document.getElementById('n_body').value.trim(),
+    imageUrl: document.getElementById('n_imgUrl').value||null,
+    updatedAt: window._serverTimestamp()
+  };
+  Object.keys(data).forEach(k => { if(data[k]===null||data[k]==='') delete data[k]; });
+  const editId = document.getElementById('editNewsId').value;
+  try {
+    if (editId) {
+      await window._updateDoc(window._doc(window._db,'news',editId),data);
+      toast('Article updated ✓','ok');
+    } else {
+      data.createdAt = window._serverTimestamp();
+      await window._addDoc(window._collection(window._db,'news'),data);
+      toast('Article published ✓','ok');
+    }
+    clearNewsForm(); loadNewsList();
+  } catch(e) { toast('Save failed','err'); console.error(e); }
+}
+async function editArticle(id) {
+  const snap = await window._getDoc(window._doc(window._db,'news',id));
+  const d = snap.data();
+  document.getElementById('editNewsId').value = id;
+  document.getElementById('n_title').value    = d.title    || '';
+  document.getElementById('n_category').value = d.category || 'News';
+  document.getElementById('n_date').value     = d.date     || '';
+  document.getElementById('n_excerpt').value  = d.excerpt  || '';
+  document.getElementById('n_body').value     = d.body     || '';
+  if (d.imageUrl) showExisting('newsImg','n_imgUrl',d.imageUrl);
+  document.getElementById('newsFormTitle').textContent = 'Edit Article';
+  document.getElementById('panel-news').scrollIntoView({behavior:'smooth'});
+}
+async function deleteArticle(id) {
+  if (!confirm('Delete this article? This cannot be undone.')) return;
+  await window._deleteDoc(window._doc(window._db,'news',id));
+  toast('Article deleted','');
+  loadNewsList();
+}
+function clearNewsForm() {
+  ['n_title','n_excerpt','n_body','n_date','editNewsId','n_imgUrl'].forEach(id => {
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  const prev=document.getElementById('prev-newsImg'); if(prev) prev.style.display='none';
+  const utxt=document.getElementById('urltxt-newsImg'); if(utxt) utxt.style.display='none';
+  document.getElementById('newsFormTitle').textContent='Add New Article';
+}
+
+/* ── PARTNERS ── */
+async function loadPartnersList() {
+  const list = document.getElementById('partnersList');
+  if (!window._db) { list.innerHTML='<p style="color:var(--muted)">Firebase not connected</p>'; return; }
+  list.innerHTML='<p style="color:var(--muted);font-size:.85rem;">Loading…</p>';
+  try {
+    const snap = await window._getDocs(window._collection(window._db,'partners'));
+    if (snap.empty) { list.innerHTML='<p style="color:var(--muted);font-size:.85rem;">No partners yet.</p>'; return; }
+    list.innerHTML='';
+    snap.forEach(d => {
+      const a = d.data();
+      list.innerHTML += `
+        <div class="list-item">
+          ${a.logoUrl?`<img src="${a.logoUrl}" alt="${a.name||''}" style="object-fit:contain;background:#f9f9f9;">`:`<div style="width:70px;height:52px;background:#e5e7eb;border-radius:6px;flex-shrink:0;"></div>`}
+          <div class="list-item-body"><h4>${a.name||'Unnamed'}</h4><span>${a.website||''}</span></div>
+          <div class="list-item-actions">
+            <button class="btn btn-outline btn-sm" onclick="editPartner('${d.id}')"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-danger btn-sm"  onclick="deletePartner('${d.id}')"><i class="fas fa-trash"></i></button>
+          </div>
+        </div>`;
+    });
+  } catch(e) { list.innerHTML='<p style="color:var(--danger)">Error loading partners</p>'; }
+}
+async function savePartner() {
+  if (!window._db) return;
+  const name = document.getElementById('p_name').value.trim();
+  if (!name) { toast('Partner name required','err'); return; }
+  const data = {
+    name,
+    website: document.getElementById('p_website').value.trim()||null,
+    logoUrl: document.getElementById('p_logoUrl').value||null,
+    order:   Date.now()
+  };
+  Object.keys(data).forEach(k => { if(data[k]===null||data[k]==='') delete data[k]; });
+  const editId = document.getElementById('editPartnerId').value;
+  try {
+    if (editId) { await window._updateDoc(window._doc(window._db,'partners',editId),data); toast('Partner updated ✓','ok'); }
+    else { await window._addDoc(window._collection(window._db,'partners'),data); toast('Partner added ✓','ok'); }
+    clearPartnerForm(); loadPartnersList();
+  } catch(e) { toast('Save failed','err'); }
+}
+async function editPartner(id) {
+  const snap = await window._getDoc(window._doc(window._db,'partners',id));
+  const d = snap.data();
+  document.getElementById('editPartnerId').value = id;
+  document.getElementById('p_name').value    = d.name    || '';
+  document.getElementById('p_website').value = d.website || '';
+  if (d.logoUrl) showExisting('partnerLogo','p_logoUrl',d.logoUrl);
+  document.getElementById('partnerFormTitle').textContent = 'Edit Partner';
+}
+async function deletePartner(id) {
+  if (!confirm('Remove this partner?')) return;
+  await window._deleteDoc(window._doc(window._db,'partners',id));
+  toast('Partner removed',''); loadPartnersList();
+}
+function clearPartnerForm() {
+  ['p_name','p_website','editPartnerId','p_logoUrl'].forEach(id => {
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  const prev=document.getElementById('prev-partnerLogo'); if(prev) prev.style.display='none';
+  const utxt=document.getElementById('urltxt-partnerLogo'); if(utxt) utxt.style.display='none';
+  document.getElementById('partnerFormTitle').textContent='Add Partner';
+}
+
+/* ── DASHBOARD COUNTS ── */
+async function loadDashCounts() {
+  if (!window._db) return;
+  try {
+    const [n,p,s,c] = await Promise.all([
+      window._getDocs(window._collection(window._db,'news')),
+      window._getDocs(window._collection(window._db,'partners')),
+      window._getDocs(window._collection(window._db,'newsletterSubscribers')),
+      window._getDocs(window._collection(window._db,'contactMessages'))
+    ]);
+    document.getElementById('db-news').textContent     = n.size;
+    document.getElementById('db-partners').textContent = p.size;
+    document.getElementById('db-subs').textContent     = s.size;
+    document.getElementById('db-contacts').textContent = c.size;
+  } catch(e) {}
+}
+
+/* ── PASSWORD HINT ── */
+function showPwHint() {
+  const p1=document.getElementById('newPw1').value;
+  const p2=document.getElementById('newPw2').value;
+  if (!p1||p1!==p2) { toast('Passwords do not match','err'); return; }
+  document.getElementById('pwHintVal').textContent = p1;
+  document.getElementById('pwHint').style.display = 'block';
+}
+
+/* ── INIT ── */
+function initAdmin() {
+  loadCloudinary();
+  loadDashCounts();
+}
+
+/* ── Wait for Firebase module to expose globals ── */
+window.addEventListener('firebaseReady', initAdmin);
+</script>
+
+<!-- Service Worker Registration (PWA) -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js').catch(err => console.log('SW registration failed:', err));
+  });
+}
+</script>
+</body>
+</html>
