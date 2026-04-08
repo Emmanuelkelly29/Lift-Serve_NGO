@@ -161,11 +161,12 @@ img{max-width:100%;}
 
 /* gallery */
 .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;margin-top:1.5rem;}
-.gallery-item{border-radius:10px;overflow:hidden;aspect-ratio:4/3;position:relative;}
-.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;}
+.gallery-item{border-radius:10px;overflow:hidden;position:relative;background:var(--light-gray);}
+.gallery-item img,.gallery-item video,.gallery-item iframe{width:100%;height:100%;object-fit:cover;display:block;}
 .gallery-item .img-placeholder-inner{width:100%;height:100%;display:flex;flex-direction:column;
   align-items:center;justify-content:center;background:var(--light-gray);color:var(--navy);opacity:.5;}
 .gallery-item .img-placeholder-inner i{font-size:2.5rem;margin-bottom:.5rem;}
+.gallery-caption{position:absolute;bottom:0;left:0;right:0;padding:.8rem 1rem;background:rgba(0,0,0,.45);color:#fff;font-size:.9rem;line-height:1.3;}
 
 /* success stories */
 .stories-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem;margin-top:2rem;}
@@ -253,7 +254,8 @@ img{max-width:100%;}
    CONTACT
 ═══════════════════════════════════════════════════════════ */
 .contact-info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin-bottom:2.5rem;}
-.contact-info-card{background:#fff;padding:1.5rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);text-align:center;}
+.contact-info-card{background:#fff;padding:1.5rem;border-radius:12px;box-shadow:0 4px 16px rgba(0,0,0,.07);text-align:center;overflow-wrap:break-word;word-break:break-word;}
+.contact-info-card a{display:block;word-break:break-all;overflow-wrap:break-word;}
 .contact-icon{font-size:2rem;color:var(--gold);margin-bottom:.8rem;}
 .contact-info-card h3{margin-bottom:.6rem;}
 .social-media-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;}
@@ -445,11 +447,12 @@ async function loadSiteContent() {
       if (d.aboutText2)   { const el=document.getElementById('aboutText2'); if(el) el.textContent=d.aboutText2; }
       if (d.storyImageUrl){ const el=document.getElementById('storyImg'); if(el) el.src=d.storyImageUrl; }
       // Gallery images
-      for(let i=1;i<=6;i++) {
-        if(d['galleryImg'+i]) {
-          const el=document.getElementById('galleryImg'+i);
-          if(el){el.src=d['galleryImg'+i]; el.style.display='block'; el.nextElementSibling&&(el.nextElementSibling.style.display='none');}
-        }
+      if (Array.isArray(d.galleryItems) && d.galleryItems.length) {
+        renderGalleryItems(d.galleryItems);
+      } else {
+        const fallback = [];
+        for(let i=1;i<=6;i++) { if(d['galleryImg'+i]) fallback.push({type:'image',url:d['galleryImg'+i],caption:''}); }
+        renderGalleryItems(fallback);
       }
       // Team member photos
       for(let i=1;i<=3;i++) {
@@ -521,6 +524,35 @@ async function loadSiteContent() {
       }
     }
   } catch(e) { console.warn('Firebase content load error:', e); }
+}
+
+function renderGalleryItems(items) {
+  const grid = document.getElementById('galleryGrid'); if (!grid) return;
+  if (!Array.isArray(items) || !items.length) {
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:2rem 1rem;">No gallery items yet.</div>';
+    return;
+  }
+  grid.innerHTML = items.map(item => {
+    const url = (item.url || '').replace(/"/g,'&quot;');
+    const captionText = (item.caption || '').replace(/"/g,'&quot;');
+    const caption = captionText ? `<div class="gallery-caption">${captionText}</div>` : '';
+    if (item.type === 'video') {
+      if (url.match(/\.(mp4|webm|ogg)(\?|$)/i)) {
+        return `<div class="gallery-item"><video controls playsinline preload="metadata" src="${url}"></video>${caption}</div>`;
+      }
+      const youtubeId = getYoutubeId(url);
+      if (youtubeId) {
+        return `<div class="gallery-item"><iframe loading="lazy" src="https://www.youtube.com/embed/${youtubeId}" frameborder="0" allowfullscreen></iframe>${caption}</div>`;
+      }
+      return `<div class="gallery-item"><div class="img-placeholder-inner" style="padding:1rem;text-align:center;"><a href="${url}" target="_blank" style="color:var(--navy);text-decoration:underline;">Open video</a></div>${caption}</div>`;
+    }
+    return `<div class="gallery-item"><img loading="lazy" src="${url}" alt="${captionText||'Gallery image'}">${caption}</div>`;
+  }).join('');
+}
+
+function getYoutubeId(url) {
+  const match = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return match ? match[1] : null;
 }
 
 window.addEventListener('DOMContentLoaded', () => { loadSiteContent(); startRealtimeListeners(); });
@@ -869,22 +901,22 @@ window.submitVolunteerForm = async function(e) {
       <h2>Meet Our Team</h2>
       <div class="team-grid">
         <div class="team-card">
-          <div class="team-member-photo"><img id="teamMemberImg1" src="" alt="Michael" style="display:none;"><div class="img-placeholder-inner"><i class="fas fa-user"></i></div></div>
-          <h3>Michael Egunjobi</h3><p class="role">Director</p>
-          <p>Passionate educator with over 10 years of experience in community development and educational advocacy.</p>
-          <p style="font-size:.85rem;"><strong>Contact:</strong> michael@liftandservefoundation.com</p>
-        </div>
-        <div class="team-card">
           <div class="team-member-photo"><img id="teamMemberImg2" src="" alt="Emmanuel" style="display:none;"><div class="img-placeholder-inner"><i class="fas fa-user"></i></div></div>
-          <h3>Emmanuel C. Kelly</h3><p class="role">Program Director</p>
-          <p>Dedicated to creating sustainable educational programs that make a lasting impact in rural communities.</p>
-          <p style="font-size:.85rem;"><strong>Contact:</strong> emmanuel@liftandservefoundation.com</p>
+          <h3>Emmanuel C. Kelly</h3><p class="role">Managing Trustee
+</p>      <p>Driven by a commitment to education, brings expertise in creating sustainable programs that transform rural communities while ensuring equitable access to learning.</p>
+          <!-- <p style="font-size:.85rem;"><strong>Contact:</strong> emmanuel@liftandservefoundation.com</p> -->
+            </div>
+        <div class="team-card">
+          <div class="team-member-photo"><img id="teamMemberImg1" src="" alt="Michael" style="display:none;"><div class="img-placeholder-inner"><i class="fas fa-user"></i></div></div>
+          <h3>Margaret Kelikume</h3><p class="role">Children Advocacy Lead</p>
+          <p>Passionate advocate with over a decade of experience empowering underserved youth through education and community development.</p>
+          <!-- <p style="font-size:.85rem;"><strong>Contact:</strong> michael@liftandservefoundation.com</p> -->
         </div>
         <div class="team-card">
           <div class="team-member-photo"><img id="teamMemberImg3" src="" alt="Team" style="display:none;"><div class="img-placeholder-inner"><i class="fas fa-user"></i></div></div>
           <h3>Elizabeth Gbadebo</h3><p class="role">Outreach Coordinator</p>
           <p>Expert in building partnerships and connecting communities with educational resources.</p>
-          <p style="font-size:.85rem;"><strong>Contact:</strong> elizabeth@liftandservefoundation.com</p>
+          <!-- <p style="font-size:.85rem;"><strong>Contact:</strong> elizabeth@liftandservefoundation.com</p> -->
         </div>
       </div>
     </div>
@@ -934,13 +966,8 @@ window.submitVolunteerForm = async function(e) {
     <div class="content-section">
       <h2>Program Gallery</h2>
       <p style="text-align:center;margin-bottom:.5rem;">See our programs in action through photos from our work in communities.</p>
-      <div class="gallery-grid">
-        <div class="gallery-item"><img id="galleryImg1" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder1"><i class="fas fa-graduation-cap"></i><p>Scholarship Ceremony</p></div></div>
-        <div class="gallery-item"><img id="galleryImg2" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder2"><i class="fas fa-book"></i><p>Book Distribution</p></div></div>
-        <div class="gallery-item"><img id="galleryImg3" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder3"><i class="fas fa-school"></i><p>Learning Center</p></div></div>
-        <div class="gallery-item"><img id="galleryImg4" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder4"><i class="fas fa-users"></i><p>Community Workshop</p></div></div>
-        <div class="gallery-item"><img id="galleryImg5" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder5"><i class="fas fa-laptop"></i><p>Digital Learning</p></div></div>
-        <div class="gallery-item"><img id="galleryImg6" src="" alt="" style="display:none;"><div class="img-placeholder-inner" id="galleryPlaceholder6"><i class="fas fa-heart"></i><p>Volunteer Activities</p></div></div>
+      <div class="gallery-grid" id="galleryGrid">
+        <div style="grid-column:1/-1;text-align:center;color:var(--muted);padding:2rem 1rem;">No gallery items yet.</div>
       </div>
     </div>
 
@@ -1116,7 +1143,7 @@ window.submitVolunteerForm = async function(e) {
       <h2>Other Ways to Donate</h2>
       <div class="content-grid">
         <div class="content-card"><div class="card-icon"><i class="fas fa-university"></i></div><h3>Bank Transfer</h3><p>Make a direct bank transfer to our foundation account.</p><div class="bank-details"><p><strong>Account Name:</strong> Lift and Serve All Foundation</p><p><strong>Account Number:</strong> 0032955773</p><p><strong>Bank:</strong> GTBank (Nigeria)</p></div></div>
-        <div class="content-card"><div class="card-icon"><i class="fas fa-mobile-alt"></i></div><h3>Mobile Money</h3><p>Send your donation via mobile money services.</p><div class="bank-details"><p><strong>Nigeria:</strong> +2348031114594</p><p><strong>USA:</strong> +1 (208) 992-6233</p></div></div>
+        <div class="content-card"><div class="card-icon"><i class="fas fa-mobile-alt"></i></div><h3>Mobile Money</h3><p>Send your donation via mobile money services.</p><div class="bank-details"><p><strong>Nigeria:</strong> +2348031114594</p><p><strong>USA:</strong> +1 (903) 689-3774</p></div></div>
         <div class="content-card"><div class="card-icon"><i class="fas fa-gift"></i></div><h3>In-Kind Donations</h3><p>Donate books, school supplies, or other educational materials.</p><ul style="padding-left:1.2rem;list-style:disc;font-size:.9rem;"><li>Textbooks and workbooks</li><li>School uniforms</li><li>Computers and tablets</li><li>Educational games</li></ul><button class="btn btn-outline" style="margin-top:.8rem;" onclick="showPage('contact')">Contact Us</button></div>
         <div class="content-card"><div class="card-icon"><i class="fas fa-building"></i></div><h3>Corporate Giving</h3><p>Partner with us for large-scale impact through corporate donations.</p><ul style="padding-left:1.2rem;list-style:disc;font-size:.9rem;"><li>Tax-deductible contributions</li><li>Employee engagement programs</li><li>Brand recognition</li><li>Impact reporting</li></ul><button class="btn btn-outline" style="margin-top:.8rem;" onclick="showPage('contact')">Learn More</button></div>
       </div>
@@ -1221,8 +1248,8 @@ window.submitVolunteerForm = async function(e) {
       <h2>Get in Touch</h2>
       <div class="contact-info-grid">
         <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div><h3>Office</h3><p>Lift and Serve All Foundation<br>Global Operations<br>Serving Communities Worldwide</p></div>
-        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-phone"></i></div><h3>Phone</h3><p><strong>Nigeria:</strong> +2348031114594</p><p><strong>USA:</strong> +1 (208) 992-6233</p><p style="font-size:.85rem;">Mon–Fri: 9am–5pm</p></div>
-        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-envelope"></i></div><h3>Email</h3><p><a href="mailto:michael@liftandservefoundation.com">michael@liftandservefoundation.com</a></p><p><a href="mailto:emmanuel@liftandservefoundation.com">emmanuel@liftandservefoundation.com</a></p></div>
+        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-phone"></i></div><h3>Phone</h3><p><strong>Nigeria:</strong> +2348031114594</p><p><strong>USA:</strong> +1 (903) 689-3774</p><p style="font-size:.85rem;">Mon–Fri: 9am–5pm</p></div>
+        <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-envelope"></i></div><h3>Email</h3><p><a href="mailto:info@liftandserveallfoundation.com">info@liftandservefoundation.com</a></p></div>
         <div class="contact-info-card"><div class="contact-icon"><i class="fas fa-comments"></i></div><h3>Live Chat</h3><p>Available on our website<br>Mon–Fri: 9am–5pm</p><button class="btn btn-primary" onclick="document.getElementById('chatbotToggle').click()">Start Chat</button></div>
       </div>
     </div>
@@ -1355,10 +1382,9 @@ window.submitVolunteerForm = async function(e) {
         <h3>Contact Info</h3>
         <div class="contact-info-footer">
           <p><i class="fas fa-phone"></i> +2348031114594</p>
-          <p><i class="fas fa-phone"></i> +1 (208) 992-6233</p>
-          <p><i class="fas fa-envelope"></i> michael@liftandservefoundation.com</p>
-          <p><i class="fas fa-envelope"></i> emmanuel@liftandservefoundation.com</p>
-        </div>
+          <p><i class="fas fa-phone"></i> +1 (903) 689-3774</p>
+          <p><i class="fas fa-envelope"></i> info@liftandservefoundation.com</p>
+          </div>
       </div>
       <div>
         <h3>Newsletter</h3>
